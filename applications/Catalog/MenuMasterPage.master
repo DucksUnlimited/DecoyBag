@@ -1,0 +1,119 @@
+<%@ Master Language="VB" CodeFile="MenuMasterPage.master.vb" Inherits="MenuMasterPage" %>
+
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <META name="GENERATOR" content="IBM Software Development Platform">
+    <META http-equiv="Content-Style-Type" content="text/css">
+
+    <link rel="stylesheet" href="http://www.ducksystem.com/NATURAL/99723934.CSS" type="text/css"/>
+    <link rel="stylesheet" href="http://www.ducksystem.com/NATURAL/99723933.CSS" type="text/css" media="print"/>
+    
+    <style type="text/css">
+      .validatorCalloutHighlight
+      {
+         background-color: lemonchiffon;
+      }
+      .jobsubmit
+      {
+         background-color: tomato;
+         font-size: 140%;
+      } 
+      .group
+      {
+         background-color: DarkSeaGreen;
+         font-size: 26pt;
+      } 
+      #TIMESTAMPP                    
+      {
+         float: right;
+         font-size: 8pt;
+      }
+      #TIMESTAMPS                    
+      {
+         float: right;
+         font-size: 8pt;
+      }
+      TH
+      {
+      border-bottom: 1px solid black;
+      vertical-align: bottom;
+      padding: 0px;
+      margin: 0px;
+      background-color: transparent;
+      }
+    </style>
+    
+<!--    <script language="JavaScript"> -->
+    <!--
+      javascript:window.history.forward(1);
+    //-->
+ <!--   </script> -->
+    
+    <title>Ducks Unlimited</title>
+</head>
+<body leftmargin="0" topmargin="0">
+    <div id="CONTAINER">
+        <div id="HEADER">
+          <div id="DUCKHEAD"><a><img src="http://www.ducksystem.com/NATURAL/99725393.JPG"  align=middle border=0></a></div>
+          <div class='SCREEN-HIDE' style="position:relative; float: left;"><img src="http://www.ducksystem.com/NATURAL/99875006.GIF" border=0 width=45 height=30></div>
+          <div id="SYSTEM_INFO" align="right">
+            <div id="TITLE" align="left" style="color:DarkGreen; font-size:16pt">
+                <asp:Label ID="UpdateOrd" runat="server"></asp:Label>
+            </div>          
+            <div id="TIMESTAMPP" class=SCREEN-HIDE>
+                <asp:Label ID="DatePH" runat="server"></asp:Label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Label ID="TimePH" runat="server"></asp:Label>
+            </div>  <!--- ending timestamp div -->
+            <div id="TIMESTAMPS" class=PRINTER-HIDE>
+                <asp:Label ID="DateSH" runat="server"></asp:Label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Label ID="TimeSH" runat="server"></asp:Label>
+            </div>  <!--- ending timestamp div -->
+            <div align="center" style="width:100%; float:left; color:DarkGreen; font-size:16pt">
+                <asp:Label ID="SystemTitle" runat="server"></asp:Label>
+            </div>
+            <div align=center style="width:100%; float:left; font-size:14pt; font-weight:bold;">
+                <asp:Label ID="EventTitle" runat="server" ></asp:Label>
+            </div>
+            <div  align="center" style="width:100%; float:left; font-size:12pt; font-weight:bold;">
+                <asp:Label ID="PageTitle" runat="server" ></asp:Label>
+            </div>
+          </div>
+        </div>
+        <div id="APPLICATION">
+                <form id="form1" runat="server">
+                <telerik:RadScriptManager ID="ScriptManager1" runat="server" />
+                    <asp:Label ID="lblError" runat="server" ForeColor="Red" Style="z-index: 100; left: 5px;
+                        position: absolute; top: 12px"></asp:Label><br />
+                <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+                </asp:contentplaceholder>
+                </form>
+            </div>
+        <div>
+        <table width="750" cellSpacing="0" cellPadding="0" border="0">
+          <tr>
+            <td height="2px"></td>
+          </tr>
+          <tr>
+            <td width="10">
+              <table style="width: 750px" cellSpacing=0 cellPadding=0 border=0>
+                <tr>
+                  <td width="10" class="footer" style="height: 20px"></td>
+                  <td width="200" class="footer" vAlign="middle" align="left" style="height: 20px"><span style="COLOR: #666666">&#169;Ducks Unlimited, Inc.</span></td>
+                  <td width="540" class="footer" style="padding-right: 10px; height: 20px;" vAlign="middle" align="right"><a href="http://www.ducks.org/contactdu.aspx">Contact Us</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimited/2103/PrivacyStatement.html">Privacy</a>&nbsp;|&nbsp;<a href="http://www.ducks.org/jobs.aspx">Jobs</a> | <a href="http://www.ducks.org/faq.aspx">FAQ's</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimitedHome/2359/FinancialInformation.html">Financials</a></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+    </div>
+    <div class="SPACER"></div>
+    </div>
+</body>
+</html>
