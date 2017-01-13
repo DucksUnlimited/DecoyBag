@@ -1085,7 +1085,7 @@ Public Class ClassiSeriesDataAccess
 
         Catch ex As Exception
             mvLastError = ex.Message
-            Return Nothing
+            'Current.Session("LastError") = ex.Message
         End Try
 
     End Function
@@ -1133,7 +1133,8 @@ Public Class ClassiSeriesDataAccess
 
         Catch ex As Exception
             mvLastError = ex.Message
-            Current.Response.Redirect("CatEntry005A.aspx")
+            'Current.Session("LastError") = ex.Message
+            'Current.Response.Redirect("CatEntry005A.aspx")
             Throw ex
         End Try
 
@@ -1169,7 +1170,8 @@ Public Class ClassiSeriesDataAccess
 
         Catch ex As Exception
             mvLastError = ex.Message
-            Current.Response.Redirect("CatEntry005A.aspx")
+            'Current.Session("LastError") = ex.Message
+            'Current.Response.Redirect("CatEntry005A.aspx")
             Throw ex
         End Try
 

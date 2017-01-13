@@ -28,7 +28,7 @@ Partial Class ProductDetails
             MyBase.OnPreRender(e)
 
             Dim itmimg As New Image
-            itmimg.ImageUrl = "/Images/" + CCNumb.ToString().Trim() + ".jpg"
+            itmimg.ImageUrl = "~/Images/" + CCNumb.ToString().Trim() + ".jpg"
             Dim desc As New Label
             desc.Text = " "
             Dim details As New Literal
@@ -73,7 +73,7 @@ Partial Class ProductDetails
         If Not File.Exists(imgpath) Then
             itmimage.ImageUrl = "Images/ImageNotAvailable.jpg"
         Else
-            itmimage.ImageUrl = imgPath
+            itmimage.ImageUrl = "Images/" + CCNumb.ToString().Trim() + ".jpg"
         End If
 
         If File.Exists(txtPath) Then

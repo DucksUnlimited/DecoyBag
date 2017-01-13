@@ -1,3 +1,0 @@
-Reports time, temperature and humidity
-Measures 12 1/2 H x 10 3/4 W
-Must be ordered in increments of 6

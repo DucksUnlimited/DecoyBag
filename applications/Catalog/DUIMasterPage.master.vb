@@ -17,6 +17,9 @@ Partial Class MasterPage
             If Session("EventTitle") Is Nothing Then
                 Session.Add("EventTitle", String.Empty)
             End If
+            If Session("LastError") Is Nothing Then
+                Session.Add("LastError", String.Empty)
+            End If
 
             'TODO - Get page title from query string
             UpdateOrd.Text = Session("UpdateOrd")

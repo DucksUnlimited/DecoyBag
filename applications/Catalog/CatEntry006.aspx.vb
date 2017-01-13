@@ -81,118 +81,118 @@ Partial Class CatEntry006
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        'Try
+        Try
 
-        ' get session manager object
-        parms = Session("oSessionManager")
+            ' get session manager object
+            parms = Session("oSessionManager")
 
-        If Session("LastError") Is Nothing Then
-            Session.Add("LastError", String.Empty)
-        End If
-        If Session("UpdateOrd") Is Nothing Then
-            Session.Add("UpdateOrd", String.Empty)
-        End If
-
-        If Session("PageTitle") Is Nothing Then
-            Session.Add("PageTitle", String.Empty)
-        End If
-
-        If Session("SystemTitle") Is Nothing Then
-            Session.Add("SystemTitle", String.Empty)
-        End If
-
-        If Session("EventTitle") Is Nothing Then
-            Session.Add("EventTitle", String.Empty)
-        End If
-
-        Session("SystemTitle") = "Event Merchandise Order Entry"
-        'Session("EventTitle") = (parms.EventName + "  -  " + parms.EventID)
-        Session("PageTitle") = "Order Selection/New Order"
-
-        If Not Page.IsPostBack Then
-
-            objGen.InitializeSessionVairables()
-
-            If Not BPostBack Then
-                Dim urlStart As String = Request.UrlReferrer.AbsoluteUri
-                Session("UrlStart") = urlStart
+            If Session("LastError") Is Nothing Then
+                Session.Add("LastError", String.Empty)
+            End If
+            If Session("UpdateOrd") Is Nothing Then
+                Session.Add("UpdateOrd", String.Empty)
             End If
 
-            'Parse query into parameters
-            parms.parseQueryString(Request)
+            If Session("PageTitle") Is Nothing Then
+                Session.Add("PageTitle", String.Empty)
+            End If
 
-            oiSeries = New ClassiSeriesDataAccess
+            If Session("SystemTitle") Is Nothing Then
+                Session.Add("SystemTitle", String.Empty)
+            End If
 
-            Session("DTState") = oiSeries.LoadStateDropDown()
+            If Session("EventTitle") Is Nothing Then
+                Session.Add("EventTitle", String.Empty)
+            End If
 
-            If parms.EventID Is Nothing Or parms.EventID = "" Then
+            Session("SystemTitle") = "Event Merchandise Order Entry"
+            'Session("EventTitle") = (parms.EventName + "  -  " + parms.EventID)
+            Session("PageTitle") = "Order Selection/New Order"
 
-                'PendingOrders.Visible = False
-                OrderSelect.Visible = False
-                OrderSelect.Enabled = False
-                'NoOrder.Visible = False
-                'ApprovedOrders.Visible = False
-                'NoApproved.Visible = False
+            If Not Page.IsPostBack Then
 
-                dtQuoteOrder = oiSeries.LoadQuotOrderListRD(parms.RDNUM)
+                objGen.InitializeSessionVairables()
 
-                'Check to see if there are any orders to pick from
-                If dtQuoteOrder.Rows.Count > 0 Then
+                If Not BPostBack Then
+                    Dim urlStart As String = Request.UrlReferrer.AbsoluteUri
+                    Session("UrlStart") = urlStart
+                End If
 
-                    'Build order drop down from found orders
+                'Parse query into parameters
+                parms.parseQueryString(Request)
 
-                    Dim dvPend As DataView = New DataView(dtQuoteOrder, "approv<>'Y'", "approv asc", DataViewRowState.CurrentRows)
-                    Dim dtPend As New DataTable
-                    dtPend = dvPend.ToTable
-                    Dim dvAprv As DataView = New DataView(dtQuoteOrder, "approv='Y'", "approv asc", DataViewRowState.CurrentRows)
-                    Dim dtAprv As New DataTable
-                    dtAprv = dvAprv.ToTable
+                oiSeries = New ClassiSeriesDataAccess
 
-                    OrderSelect.Visible = True
-                    OrderSelect.Enabled = True
+                Session("DTState") = oiSeries.LoadStateDropDown()
 
-                    PendingOrders.Visible = True
-                    PendingOrders.DataSource = dtPend
-                    PendingOrders.DataTextField = "dropname"
-                    PendingOrders.DataValueField = "htnum"
-                    PendingOrders.DataBind()
-                    ApprovedOrders.Visible = True
-                    ApprovedOrders.DataSource = dtAprv
-                    ApprovedOrders.DataTextField = "dropname"
-                    ApprovedOrders.DataValueField = "htnum"
-                    ApprovedOrders.DataBind()
+                If parms.EventID Is Nothing Or parms.EventID = "" Then
 
-                    If dtPend.Rows.Count > 0 Then
-                        PendingOrders.Items.Insert(0, "  Select a Pending Order")
-                        PendingOrders.SelectedIndex = 0
-                        objGen.SortDropDown(PendingOrders)
+                    'PendingOrders.Visible = False
+                    OrderSelect.Visible = False
+                    OrderSelect.Enabled = False
+                    'NoOrder.Visible = False
+                    'ApprovedOrders.Visible = False
+                    'NoApproved.Visible = False
+
+                    dtQuoteOrder = oiSeries.LoadQuotOrderListRD(parms.RDNUM)
+
+                    'Check to see if there are any orders to pick from
+                    If dtQuoteOrder.Rows.Count > 0 Then
+
+                        'Build order drop down from found orders
+
+                        Dim dvPend As DataView = New DataView(dtQuoteOrder, "approv<>'Y'", "approv asc", DataViewRowState.CurrentRows)
+                        Dim dtPend As New DataTable
+                        dtPend = dvPend.ToTable
+                        Dim dvAprv As DataView = New DataView(dtQuoteOrder, "approv='Y'", "approv asc", DataViewRowState.CurrentRows)
+                        Dim dtAprv As New DataTable
+                        dtAprv = dvAprv.ToTable
+
+                        OrderSelect.Visible = True
+                        OrderSelect.Enabled = True
+
+                        PendingOrders.Visible = True
+                        PendingOrders.DataSource = dtPend
+                        PendingOrders.DataTextField = "dropname"
+                        PendingOrders.DataValueField = "htnum"
+                        PendingOrders.DataBind()
+                        ApprovedOrders.Visible = True
+                        ApprovedOrders.DataSource = dtAprv
+                        ApprovedOrders.DataTextField = "dropname"
+                        ApprovedOrders.DataValueField = "htnum"
+                        ApprovedOrders.DataBind()
+
+                        If dtPend.Rows.Count > 0 Then
+                            PendingOrders.Items.Insert(0, "  Select a Pending Order")
+                            PendingOrders.SelectedIndex = 0
+                            objGen.SortDropDown(PendingOrders)
+                        Else
+                            PendingOrders.Items.Insert(0, "  No Pending Orders")
+                            PendingOrders.SelectedIndex = 0
+                            'NoOrder.Visible = True
+                        End If
+
+                        If dtAprv.Rows.Count > 0 Then
+                            ApprovedOrders.Items.Insert(0, "  Select an Approved Order")
+                            ApprovedOrders.SelectedIndex = 0
+                            objGen.SortDropDown(ApprovedOrders)
+                        Else
+                            ApprovedOrders.Items.Insert(0, "  No Approved Orders")
+                            ApprovedOrders.SelectedIndex = 0
+                            'NoApproved.Visible = True
+                        End If
+
                     Else
-                        PendingOrders.Items.Insert(0, "  No Pending Orders")
-                        PendingOrders.SelectedIndex = 0
                         'NoOrder.Visible = True
                     End If
-
-                    If dtAprv.Rows.Count > 0 Then
-                        ApprovedOrders.Items.Insert(0, "  Select an Approved Order")
-                        ApprovedOrders.SelectedIndex = 0
-                        objGen.SortDropDown(ApprovedOrders)
-                    Else
-                        ApprovedOrders.Items.Insert(0, "  No Approved Orders")
-                        ApprovedOrders.SelectedIndex = 0
-                        'NoApproved.Visible = True
-                    End If
-
-                Else
-                    'NoOrder.Visible = True
+                    oiSeries.Release()
                 End If
-                oiSeries.Release()
+
             End If
 
-        End If
-
-        'Catch ex As Exception
-
-        'End Try
+        Catch ex As Exception
+            Session("LastError") = ex.Message
+        End Try
     End Sub
 
     Protected Sub GetCatsDataTable()
@@ -211,7 +211,7 @@ Partial Class CatEntry006
             DTCats = oiSeries.LoadCatsGroupsDataTable(parms.RdOnly, eventType)
 
         Catch ex As Exception
-
+            Session("LastError") = ex.Message
         End Try
     End Sub
     Protected Sub GetMainDataTable()
@@ -236,7 +236,7 @@ Partial Class CatEntry006
 
             End If
         Catch ex As Exception
-
+            Session("LastError") = ex.Message
         End Try
     End Sub
 
@@ -409,7 +409,7 @@ Partial Class CatEntry006
             Response.Redirect("CatEntry001.aspx")
 
         Catch ex As Exception
-
+            Session("LastError") = ex.Message
         End Try
 
     End Sub
@@ -430,7 +430,7 @@ Partial Class CatEntry006
             End If
 
         Catch ex As Exception
-
+            Session("LastError") = ex.Message
         End Try
 
     End Sub
@@ -462,7 +462,7 @@ Partial Class CatEntry006
             End If
 
         Catch ex As Exception
-
+            Session("LastError") = ex.Message
         End Try
 
     End Sub

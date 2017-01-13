@@ -108,226 +108,167 @@ Partial Class CatEntry001
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        'Try
-        ' get session manager object
+        Try
+            ' get session manager object
 
-        Session.Timeout = 600
+            Session.Timeout = 600
 
-        parms = Session("oSessionManager")
-        Dim wUpdateOrd As Boolean = Session("UpdateOrder")
-        'Parse query into parameters
-        If Session("UpdateOrder") Then
-            btnExit.Text = "Exit & Cancel Order Changes"
-        Else
-            btnExit.Text = "Exit & Cancel Order"
-        End If
-
-        If Not Page.IsPostBack And BPostBack = False And CancelOrder = False And Not Session("UpdateOrder") Then
-            parms.parseQueryString(Request)
-            'Set for RD Order entry
-            If parms.RDID = parms.UserID Then
-                parms.RdOnly = True
-                Session("Approved") = True
-            End If
-            rdonly = parms.RdOnly
-            Dim wrkevid As String = parms.EventID.Substring(0, 2) & parms.EventID.Substring(3, 5)
-            parms.EventID = wrkevid
-            If Session("UpdateOrd") Is Nothing Then
-                Session.Add("UpdateOrd", String.Empty)
+            parms = Session("oSessionManager")
+            Dim wUpdateOrd As Boolean = Session("UpdateOrder")
+            'Parse query into parameters
+            If Session("UpdateOrder") Then
+                btnExit.Text = "Exit & Cancel Order Changes"
+            Else
+                btnExit.Text = "Exit & Cancel Order"
             End If
 
-            If Session("PageTitle") Is Nothing Then
-                Session.Add("PageTitle", String.Empty)
-            End If
-
-            If Session("SystemTitle") Is Nothing Then
-                Session.Add("SystemTitle", String.Empty)
-            End If
-
-            If Session("EventTitle") Is Nothing Then
-                Session.Add("EventTitle", String.Empty)
-            End If
-
-            If Session("UrlStart") Is Nothing Then
-                Session.Add("UrlStart", String.Empty)
-                Dim urlStart As String = Request.UrlReferrer.AbsoluteUri
-                Dim i As Integer
-                i = urlStart.IndexOf("&tp")
-                If i > 0 Then
-                    Dim newUrlReturn As String = String.Empty
-                    newUrlReturn = urlStart.Substring(0, i)
-                    newUrlReturn = newUrlReturn + "&tp=IS&pg=CBW202&ab=1&kp=" + parms.UserID
-                    Session("UrlStart") = newUrlReturn
-                Else
-                    Session("UrlStart") = urlStart
+            If Not Page.IsPostBack And BPostBack = False And CancelOrder = False And Not Session("UpdateOrder") Then
+                parms.parseQueryString(Request)
+                'Set for RD Order entry
+                If parms.RDID = parms.UserID Then
+                    parms.RdOnly = True
+                    Session("Approved") = True
                 End If
+                rdonly = parms.RdOnly
+                Dim wrkevid As String = parms.EventID.Substring(0, 2) & parms.EventID.Substring(3, 5)
+                parms.EventID = wrkevid
+                If Session("UpdateOrd") Is Nothing Then
+                    Session.Add("UpdateOrd", String.Empty)
+                End If
+
+                If Session("PageTitle") Is Nothing Then
+                    Session.Add("PageTitle", String.Empty)
+                End If
+
+                If Session("SystemTitle") Is Nothing Then
+                    Session.Add("SystemTitle", String.Empty)
+                End If
+
+                If Session("EventTitle") Is Nothing Then
+                    Session.Add("EventTitle", String.Empty)
+                End If
+
+                If Session("UrlStart") Is Nothing Then
+                    Session.Add("UrlStart", String.Empty)
+                    Dim urlStart As String = Request.UrlReferrer.AbsoluteUri
+                    Dim i As Integer
+                    i = urlStart.IndexOf("&tp")
+                    If i > 0 Then
+                        Dim newUrlReturn As String = String.Empty
+                        newUrlReturn = urlStart.Substring(0, i)
+                        newUrlReturn = newUrlReturn + "&tp=IS&pg=CBW202&ab=1&kp=" + parms.UserID
+                        Session("UrlStart") = newUrlReturn
+                    Else
+                        Session("UrlStart") = urlStart
+                    End If
+                End If
+                'Check to see if the Friday system backup is running
+                'If dayofweek = "5" And (timeofday > "1659" And timeofday < "2030") Then
+                'redirect to a page that states not active page
+                'Response.Redirect("CatEntry005A.aspx")
+                'End If
+
+                oiSeries = New ClassiSeriesDataAccess
+
+                'Initialize all system variables
+                objGen.InitializeSessionVairables()
+                Session("DTState") = oiSeries.LoadStateDropDown()
+
+                Dim sLineType As String = ""
+
+                'get Coordinator cnaid from rd number
+                mvCoorID = oiSeries.GetCoordinatorInfo(parms.RDNUM)
+
+                'get Event information for duck system and fill the parameters with values
+                dtDuckSystem = objDucks.GetEventData(parms.EventID, parms.EventDate, parms.RDID, mvCoorID, parms.UserID)
+                For Each dr As DataRow In dtDuckSystem.Rows
+                    sLineType = dr("ParmType").ToString
+                    'Split line types in data fields
+                    Select Case sLineType
+                        Case "evnam"
+                            parms.EventName = dr("ParmData").ToString.Trim()
+                        Case "usfnm", "vlfnm"
+                            parms.UsrFName = dr("ParmData").ToString.Trim()
+                        Case "uslnm", "vllnm"
+                            parms.UsrLName = dr("ParmData").ToString.Trim()
+                        Case "useml", "vleml"
+                            Session("eMailAddr") = dr("ParmData").ToString.Trim()
+                        Case "rdnam"
+                            parms.RDName = dr("ParmData").ToString.Trim()
+                        Case "rdeml"
+                            parms.RDEMail = dr("ParmData").ToString.Trim()
+                        Case "crnam"
+                            parms.CorName = dr("ParmData").ToString.Trim()
+                        Case "creml"
+                            parms.CorEMail = dr("ParmData").ToString.Trim()
+                    End Select
+
+                Next
+
+                Session("UpdateOrd") = "New Merchandise Order"
+                Session("SystemTitle") = "Event Merchandise Order Entry"
+                Session("EventTitle") = (parms.EventName + "  -  " + parms.EventID)
+                Session("PageTitle") = "Item Selection"
             End If
-            'Check to see if the Friday system backup is running
-            'If dayofweek = "5" And (timeofday > "1659" And timeofday < "2030") Then
-            'redirect to a page that states not active page
-            'Response.Redirect("CatEntry005A.aspx")
+
+            'Limit what states and chapters can use the system
+            'If Not parms.EventID.Substring(0, 5) = "OH050" _
+            'If Not parms.EventID.Substring(0, 2) = "TN" And Not parms.EventID.Substring(0, 5) = "OH050" _
+            '   And Not parms.EventID.Substring(0, 5) = "OH002" And Not parms.EventID.Substring(0, 5) = "OH016" _
+            '   And Not parms.EventID.Substring(0, 5) = "OH081" And Not parms.EventID.Substring(0, 5) = "OH042" _
+            '   And Not parms.EventID.Substring(0, 5) = "OH068" And Not parms.EventID.Substring(0, 5) = "OH012" _
+            '   And Not parms.EventID.Substring(0, 5) = "OH019" And Not parms.EventID.Substring(0, 5) = "IN010" _
+            '   And Not parms.EventID.Substring(0, 5) = "IN053" And Not parms.EventID.Substring(0, 5) = "IN007" _
+            '   And Not parms.EventID.Substring(0, 5) = "IN045" And Not parms.EventID.Substring(0, 5) = "IN104" _
+            '   And Not parms.EventID.Substring(0, 5) = "TX094" And Not parms.EventID.Substring(0, 5) = "TX156" _
+            '   And Not parms.EventID.Substring(0, 5) = "MO014" And Not parms.EventID.Substring(0, 5) = "OK121" _
+            '   And Not parms.EventID.Substring(0, 5) = "SC047" _
+            '   And Not parms.EventID.Substring(0, 5) = "MO037" And Not parms.EventID.Substring(0, 5) = "MO086" _
+            '   And Not parms.EventID.Substring(0, 5) = "MO102" And Not parms.EventID.Substring(0, 5) = "MO062" _
+            '   And Not parms.EventID.Substring(0, 5) = "TN042" And Not parms.EventID.Substring(0, 5) = "TN032" _
+            '   And Not parms.EventID.Substring(0, 5) = "IA023" And Not parms.EventID.Substring(0, 5) = "IA053" _
+            '   And Not parms.EventID.Substring(0, 5) = "IA074" And Not parms.EventID.Substring(0, 5) = "IA076" _
+            '   And Not parms.EventID.Substring(0, 5) = "IA125" And Not parms.EventID.Substring(0, 5) = "IA078" _
+            '   And Not parms.EventID.Substring(0, 5) = "IA117" And Not parms.EventID.Substring(0, 5) = "IA075" Then
+
+            '    'redirect to a page that states not active page
+            '    Response.Redirect("CatEntry005.aspx")
+
             'End If
 
-            oiSeries = New ClassiSeriesDataAccess
+            'todo - remove comments from security check
+            'If oSessionManager.IsLoggedIn = False Then
+            '    Response.Redirect("CatEntry005.aspx")
+            'End If
 
-            'Initialize all system variables
-            objGen.InitializeSessionVairables()
-            Session("DTState") = oiSeries.LoadStateDropDown()
+            Dim slibrary As String = System.Configuration.ConfigurationManager.AppSettings("LIBRARY")
 
-            Dim sLineType As String = ""
-
-            'get Coordinator cnaid from rd number
-            mvCoorID = oiSeries.GetCoordinatorInfo(parms.RDNUM)
-
-            'get Event information for duck system and fill the parameters with values
-            dtDuckSystem = objDucks.GetEventData(parms.EventID, parms.EventDate, parms.RDID, mvCoorID, parms.UserID)
-            For Each dr As DataRow In dtDuckSystem.Rows
-                sLineType = dr("ParmType").ToString
-                'Split line types in data fields
-                Select Case sLineType
-                    Case "evnam"
-                        parms.EventName = dr("ParmData").ToString.Trim()
-                    Case "usfnm", "vlfnm"
-                        parms.UsrFName = dr("ParmData").ToString.Trim()
-                    Case "uslnm", "vllnm"
-                        parms.UsrLName = dr("ParmData").ToString.Trim()
-                    Case "useml", "vleml"
-                        Session("eMailAddr") = dr("ParmData").ToString.Trim()
-                    Case "rdnam"
-                        parms.RDName = dr("ParmData").ToString.Trim()
-                    Case "rdeml"
-                        parms.RDEMail = dr("ParmData").ToString.Trim()
-                    Case "crnam"
-                        parms.CorName = dr("ParmData").ToString.Trim()
-                    Case "creml"
-                        parms.CorEMail = dr("ParmData").ToString.Trim()
-                End Select
-
-            Next
-
-            Session("UpdateOrd") = "New Merchandise Order"
-            Session("SystemTitle") = "Event Merchandise Order Entry"
-            Session("EventTitle") = (parms.EventName + "  -  " + parms.EventID)
-            Session("PageTitle") = "Item Selection"
-        End If
-
-        'Limit what states and chapters can use the system
-        'If Not parms.EventID.Substring(0, 5) = "OH050" _
-        'If Not parms.EventID.Substring(0, 2) = "TN" And Not parms.EventID.Substring(0, 5) = "OH050" _
-        '   And Not parms.EventID.Substring(0, 5) = "OH002" And Not parms.EventID.Substring(0, 5) = "OH016" _
-        '   And Not parms.EventID.Substring(0, 5) = "OH081" And Not parms.EventID.Substring(0, 5) = "OH042" _
-        '   And Not parms.EventID.Substring(0, 5) = "OH068" And Not parms.EventID.Substring(0, 5) = "OH012" _
-        '   And Not parms.EventID.Substring(0, 5) = "OH019" And Not parms.EventID.Substring(0, 5) = "IN010" _
-        '   And Not parms.EventID.Substring(0, 5) = "IN053" And Not parms.EventID.Substring(0, 5) = "IN007" _
-        '   And Not parms.EventID.Substring(0, 5) = "IN045" And Not parms.EventID.Substring(0, 5) = "IN104" _
-        '   And Not parms.EventID.Substring(0, 5) = "TX094" And Not parms.EventID.Substring(0, 5) = "TX156" _
-        '   And Not parms.EventID.Substring(0, 5) = "MO014" And Not parms.EventID.Substring(0, 5) = "OK121" _
-        '   And Not parms.EventID.Substring(0, 5) = "SC047" _
-        '   And Not parms.EventID.Substring(0, 5) = "MO037" And Not parms.EventID.Substring(0, 5) = "MO086" _
-        '   And Not parms.EventID.Substring(0, 5) = "MO102" And Not parms.EventID.Substring(0, 5) = "MO062" _
-        '   And Not parms.EventID.Substring(0, 5) = "TN042" And Not parms.EventID.Substring(0, 5) = "TN032" _
-        '   And Not parms.EventID.Substring(0, 5) = "IA023" And Not parms.EventID.Substring(0, 5) = "IA053" _
-        '   And Not parms.EventID.Substring(0, 5) = "IA074" And Not parms.EventID.Substring(0, 5) = "IA076" _
-        '   And Not parms.EventID.Substring(0, 5) = "IA125" And Not parms.EventID.Substring(0, 5) = "IA078" _
-        '   And Not parms.EventID.Substring(0, 5) = "IA117" And Not parms.EventID.Substring(0, 5) = "IA075" Then
-
-        '    'redirect to a page that states not active page
-        '    Response.Redirect("CatEntry005.aspx")
-
-        'End If
-
-        'todo - remove comments from security check
-        'If oSessionManager.IsLoggedIn = False Then
-        '    Response.Redirect("CatEntry005.aspx")
-        'End If
-
-        Dim slibrary As String = System.Configuration.ConfigurationManager.AppSettings("LIBRARY")
-
-        If Session("LIBRARY") Is Nothing Then
-            Session("LIBRARY") = slibrary
-        End If
-
-        'todo - Activate Security checks
-        parms.IDKey = "IASJ"
-
-        If Not Page.IsPostBack And BPostBack = False And Not Session("UpdateOrder") Then
-
-            'Load catagory buttons
-            GetCatsDataTable()
-
-            rptGrids.DataSource = DTCats
-            rptGrids.DataBind()
-
-            'Load all catalog items
-            GetMainDataTable()
-
-            'Select first button as default button
-            firstTime = True
-            For Each rpi As RepeaterItem In rptGrids.Items
-                Dim btn As Button = CType(rpi.FindControl("Lnk1"), Button)
-
-                'Find oput if the group has items to select from.
-                'turn it off if not.
-                Dim items As DataRow() = DT.Select("ccpzon='" + btn.CommandArgument.ToString() + "'")
-                If items.Length > 0 Then
-                    If firstTime Then
-                        firstTime = False
-                        'set selected button color and save code
-                        btn.BackColor = Drawing.Color.Wheat
-                        btnText = btn.Text.ToString().Trim()
-                        btnCode = btn.CommandArgument.ToString()
-                    Else
-                        btn.BackColor = Drawing.Color.Empty
-                    End If
-                    btn.Visible = True
-                Else
-                    'hide button if no items in group
-                    'btn.Visible = False
-                    btn.Enabled = False
-                End If
-            Next
-
-            catGroup.Text = btnText.Trim()
-            'set a view of the table for the first button code
-            Dim dv As DataView = New DataView(DT, "ccpzon=" + btnCode, "ccpzon asc", DataViewRowState.CurrentRows)
-
-            'Load catalog items for selected button
-            dgCatalog.DataSource = dv.ToTable()
-            dgCatalog.DataBind()
-
-            If Session("DTOrder") Is Nothing Then
-
-                Dim stringType As System.Type
-                stringType = System.Type.GetType("System.String")
-
-                Dim dc As DataColumn = New DataColumn("ProductID")
-                DTOrder.Columns.Add(dc)
-                dc = New DataColumn("Qty")
-                DTOrder.Columns.Add(dc)
-                dc = New DataColumn("Description")
-                DTOrder.Columns.Add(dc)
-                dc = New DataColumn("Cost")
-                DTOrder.Columns.Add(dc)
-                dc = New DataColumn("ExtendedCost")
-                DTOrder.Columns.Add(dc)
-                dc = New DataColumn("CategoryID", stringType)
-                DTOrder.Columns.Add(dc)
-
+            If Session("LIBRARY") Is Nothing Then
+                Session("LIBRARY") = slibrary
             End If
 
-        Else
-            If BPostBack Then
+            'todo - Activate Security checks
+            parms.IDKey = "IASJ"
+
+            If Not Page.IsPostBack And BPostBack = False And Not Session("UpdateOrder") Then
+
+                'Load catagory buttons
+                GetCatsDataTable()
 
                 rptGrids.DataSource = DTCats
                 rptGrids.DataBind()
 
+                'Load all catalog items
+                GetMainDataTable()
+
+                'Select first button as default button
                 firstTime = True
                 For Each rpi As RepeaterItem In rptGrids.Items
                     Dim btn As Button = CType(rpi.FindControl("Lnk1"), Button)
-                    Dim drs As DataRow() = DTOrder.Select("CategoryID='" + btn.CommandArgument + "'")
+
                     'Find oput if the group has items to select from.
                     'turn it off if not.
-                    Dim items As DataRow() = DT.Select("CCPZON='" + btn.CommandArgument.ToString() + "'")
+                    Dim items As DataRow() = DT.Select("ccpzon='" + btn.CommandArgument.ToString() + "'")
                     If items.Length > 0 Then
                         If firstTime Then
                             firstTime = False
@@ -336,45 +277,104 @@ Partial Class CatEntry001
                             btnText = btn.Text.ToString().Trim()
                             btnCode = btn.CommandArgument.ToString()
                         Else
-                            If drs.Length > 0 Then
-                                btn.BackColor = Drawing.Color.Tan
-                            Else
-                                btn.BackColor = Drawing.Color.Empty
-                            End If
+                            btn.BackColor = Drawing.Color.Empty
                         End If
                         btn.Visible = True
                     Else
                         'hide button if no items in group
-                        btn.Visible = False
+                        'btn.Visible = False
+                        btn.Enabled = False
                     End If
                 Next
 
-                Dim dv As DataView = New DataView(DT, "CCPZON=" + btnCode, "ccpzon asc", DataViewRowState.CurrentRows)
-                catGroup.Text = btnText
+                catGroup.Text = btnText.Trim()
+                'set a view of the table for the first button code
+                Dim dv As DataView = New DataView(DT, "ccpzon=" + btnCode, "ccpzon asc", DataViewRowState.CurrentRows)
+
+                'Load catalog items for selected button
                 dgCatalog.DataSource = dv.ToTable()
                 dgCatalog.DataBind()
 
-                '---------------LOAD THE QUANTITIES RWM 6/13/2008-------------------
-                For Each dgi As GridDataItem In dgCatalog.Items
-                    Dim ProductID As String = dgi("ccnumb").Text.Trim
-                    Dim txt As TextBox = CType(dgi.FindControl("txtQ"), TextBox)
-                    If Not txt Is Nothing Then
-                        Dim drs As DataRow() = DTOrder.Select("ProductID='" + ProductID + "'")
-                        If (drs.Length > 0) Then
-                            Dim currentRow As DataRow = drs(0)
-                            txt.Text = IIf((Not currentRow("Qty").ToString().Trim() = String.Empty And Not currentRow("Qty").ToString().Trim() = "0"), currentRow("Qty").ToString().Trim(), String.Empty)
+                If Session("DTOrder") Is Nothing Then
+
+                    Dim stringType As System.Type
+                    stringType = System.Type.GetType("System.String")
+
+                    Dim dc As DataColumn = New DataColumn("ProductID")
+                    DTOrder.Columns.Add(dc)
+                    dc = New DataColumn("Qty")
+                    DTOrder.Columns.Add(dc)
+                    dc = New DataColumn("Description")
+                    DTOrder.Columns.Add(dc)
+                    dc = New DataColumn("Cost")
+                    DTOrder.Columns.Add(dc)
+                    dc = New DataColumn("ExtendedCost")
+                    DTOrder.Columns.Add(dc)
+                    dc = New DataColumn("CategoryID", stringType)
+                    DTOrder.Columns.Add(dc)
+
+                End If
+
+            Else
+                If BPostBack Then
+
+                    rptGrids.DataSource = DTCats
+                    rptGrids.DataBind()
+
+                    firstTime = True
+                    For Each rpi As RepeaterItem In rptGrids.Items
+                        Dim btn As Button = CType(rpi.FindControl("Lnk1"), Button)
+                        Dim drs As DataRow() = DTOrder.Select("CategoryID='" + btn.CommandArgument + "'")
+                        'Find oput if the group has items to select from.
+                        'turn it off if not.
+                        Dim items As DataRow() = DT.Select("CCPZON='" + btn.CommandArgument.ToString() + "'")
+                        If items.Length > 0 Then
+                            If firstTime Then
+                                firstTime = False
+                                'set selected button color and save code
+                                btn.BackColor = Drawing.Color.Wheat
+                                btnText = btn.Text.ToString().Trim()
+                                btnCode = btn.CommandArgument.ToString()
+                            Else
+                                If drs.Length > 0 Then
+                                    btn.BackColor = Drawing.Color.Tan
+                                Else
+                                    btn.BackColor = Drawing.Color.Empty
+                                End If
+                            End If
+                            btn.Visible = True
+                        Else
+                            'hide button if no items in group
+                            btn.Visible = False
                         End If
-                    End If
-                Next
+                    Next
+
+                    Dim dv As DataView = New DataView(DT, "CCPZON=" + btnCode, "ccpzon asc", DataViewRowState.CurrentRows)
+                    catGroup.Text = btnText
+                    dgCatalog.DataSource = dv.ToTable()
+                    dgCatalog.DataBind()
+
+                    '---------------LOAD THE QUANTITIES RWM 6/13/2008-------------------
+                    For Each dgi As GridDataItem In dgCatalog.Items
+                        Dim ProductID As String = dgi("ccnumb").Text.Trim
+                        Dim txt As TextBox = CType(dgi.FindControl("txtQ"), TextBox)
+                        If Not txt Is Nothing Then
+                            Dim drs As DataRow() = DTOrder.Select("ProductID='" + ProductID + "'")
+                            If (drs.Length > 0) Then
+                                Dim currentRow As DataRow = drs(0)
+                                txt.Text = IIf((Not currentRow("Qty").ToString().Trim() = String.Empty And Not currentRow("Qty").ToString().Trim() = "0"), currentRow("Qty").ToString().Trim(), String.Empty)
+                            End If
+                        End If
+                    Next
 
 
-                BPostBack = False
+                    BPostBack = False
+                End If
             End If
-        End If
 
-        'Catch ex As Exception
-
-        'End Try
+        Catch ex As Exception
+            lblStatus.Text = ex.Message
+        End Try
 
     End Sub
 #End Region
@@ -654,6 +654,7 @@ Partial Class CatEntry001
 
             Dim toolHeader As String = DataBinder.Eval(e.Item.DataItem, "itmdsc")
 
+
             If Not img Is Nothing Then
                 img.ImageUrl = imgPath
                 'Dim toolTip As String
@@ -696,7 +697,7 @@ Partial Class CatEntry001
                 '    'lnk = "<a href=""javascript:;"" title='" + toolTip + "' />"
                 'End If
             Else
-                img.ImageUrl = "/Images/ImageNotAvailable.jpg"
+                img.ImageUrl = "~/Images/ImageNotAvailable.jpg"
                 'ttText = "<div style=""border: 2px solid #999999; float:center; margin: 3px;"">"
                 'ttText += "<center><h3 style='text-align:center'>" + toolHeader + "</h3></center>"
                 'ttText += "<img src='Images/ImageNotAvailable.jpg' /></div>"
