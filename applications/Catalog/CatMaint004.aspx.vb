@@ -1,13 +1,12 @@
-Imports IBM.Data.DB2.iSeries
-Imports System.Data
-Imports System.io
-Imports Telerik.Web.UI
 
+Imports System.Data
+Imports System.IO
+Imports iSeriesDB.iSeriesCatalog
 
 Partial Class CatMaint004
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
 
 
@@ -22,14 +21,14 @@ Partial Class CatMaint004
 
             If Not Page.IsPostBack Then
                 Dim wkdate As String
-                Dim dtcats As DataTable = oiSeries.LoadCatsGroupsDataTable(rdonly, eventType)
+                Dim dtcats As DataTable = LoadCatsGroupsDataTable(rdonly, eventType)
                 DropDownGroup.DataSource = dtcats
                 DropDownGroup.DataTextField = "CATDESC"
                 DropDownGroup.DataValueField = "CATGRP"
                 DropDownGroup.DataBind()
 
                 If Session("sLOADREC") = "1" Then
-                    Dim dtitml As DataTable = oiSeries.GetItem(Session("sCCCON#"), Session("sCCNUMB"), Session("sCCEFFL"))
+                    Dim dtitml As DataTable = GetItem(Session("sCCCON#"), Session("sCCNUMB"), Session("sCCEFFL"))
                     Dim dr1 As DataRow
                     If Not IsNothing(dtitml) Then
                         dr1 = dtitml.Rows(0)
@@ -104,12 +103,12 @@ Partial Class CatMaint004
 
             Select Case Session("sMode")
                 Case "INSERT"
-                    itmUOM = oiSeries.GetItemUOM(TxtItem.Text.ToUpper.Trim)
+                    itmUOM = GetItemUOM(TxtItem.Text.ToUpper.Trim)
                     If Not IsNothing(itmUOM) And Not itmUOM = "" And Not itmUOM = " " Then
-                        rtnbool = oiSeries.InsertItem(TxtItem.Text.ToUpper.Trim, Format(ItmEffDate.SelectedDate, "yyyyMMdd"), Format(ItmExpDate.SelectedDate, "yyyyMMdd"), TxtIncQty.Text, TxtMaxQty.Text, DropDownList1.SelectedItem.Value, DropDownGroup.SelectedItem.Value, Session("sCCCON#"), TxtSeqNum.Text, itmUOM)
+                        rtnbool = InsertItem(TxtItem.Text.ToUpper.Trim, Format(ItmEffDate.SelectedDate, "yyyyMMdd"), Format(ItmExpDate.SelectedDate, "yyyyMMdd"), TxtIncQty.Text, TxtMaxQty.Text, DropDownList1.SelectedItem.Value, DropDownGroup.SelectedItem.Value, Session("sCCCON#"), TxtSeqNum.Text, itmUOM)
                     End If
                 Case "UPDATE"
-                    rtnbool = oiSeries.UpdateItem(TxtItem.Text.ToUpper.Trim, Format(ItmEffDate.SelectedDate, "yyyyMMdd"), Format(ItmExpDate.SelectedDate, "yyyyMMdd"), TxtIncQty.Text, TxtMaxQty.Text, DropDownList1.SelectedItem.Value, DropDownGroup.SelectedItem.Value, Session("sCCCON#"), TxtSeqNum.Text, Session("sCCEFFL"))
+                    rtnbool = UpdateItem(TxtItem.Text.ToUpper.Trim, Format(ItmEffDate.SelectedDate, "yyyyMMdd"), Format(ItmExpDate.SelectedDate, "yyyyMMdd"), TxtIncQty.Text, TxtMaxQty.Text, DropDownList1.SelectedItem.Value, DropDownGroup.SelectedItem.Value, Session("sCCCON#"), TxtSeqNum.Text, Session("sCCEFFL"))
             End Select
 
             If fileup.HasFile Then

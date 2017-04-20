@@ -1,8 +1,7 @@
-Imports System.Data.OleDb
 Partial Class testprogramcall
     Inherits System.Web.UI.Page
 
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -41,7 +40,7 @@ Partial Class testprogramcall
             'LblError.Text = oiSeries.GetLastError
 
             'Save error for display
-            Session("LastError") = oiSeries.GetLastError
+            Session("LastError") = "testprogramcall"
 
         Catch ex As Exception
 

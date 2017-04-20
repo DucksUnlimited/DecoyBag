@@ -1,23 +1,12 @@
-Imports System
-Imports System.Collections
-Imports System.ComponentModel
 Imports System.Data
-Imports System.Drawing
-Imports System.Web
-Imports System.Web.SessionState
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
-Imports System.Web.UI.HtmlControls
-
+Imports iSeriesDB.iSeriesCatalog
 Imports Telerik.Web.UI
-
 Imports System.IO
-Imports IBM.Data.DB2.iSeries
 
 Partial Class CatEntry001
     Inherits System.Web.UI.Page
 
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
     Public parms As New ClassSessionManager
     Public objDucks As New ClassDucksSystemCalls
     Public objGen As New GeneralRoutines
@@ -168,16 +157,16 @@ Partial Class CatEntry001
                 'Response.Redirect("CatEntry005A.aspx")
                 'End If
 
-                oiSeries = New ClassiSeriesDataAccess
+                'oiSeries = New ClassiSeriesDataAccess
 
                 'Initialize all system variables
                 objGen.InitializeSessionVairables()
-                Session("DTState") = oiSeries.LoadStateDropDown()
+                Session("DTState") = LoadStateDropDown()
 
                 Dim sLineType As String = ""
 
                 'get Coordinator cnaid from rd number
-                mvCoorID = oiSeries.GetCoordinatorInfo(parms.RDNUM)
+                mvCoorID = GetCoordinatorInfo(parms.RDNUM)
 
                 'get Event information for duck system and fill the parameters with values
                 dtDuckSystem = objDucks.GetEventData(parms.EventID, parms.EventDate, parms.RDID, mvCoorID, parms.UserID)
@@ -211,41 +200,12 @@ Partial Class CatEntry001
                 Session("PageTitle") = "Item Selection"
             End If
 
-            'Limit what states and chapters can use the system
-            'If Not parms.EventID.Substring(0, 5) = "OH050" _
-            'If Not parms.EventID.Substring(0, 2) = "TN" And Not parms.EventID.Substring(0, 5) = "OH050" _
-            '   And Not parms.EventID.Substring(0, 5) = "OH002" And Not parms.EventID.Substring(0, 5) = "OH016" _
-            '   And Not parms.EventID.Substring(0, 5) = "OH081" And Not parms.EventID.Substring(0, 5) = "OH042" _
-            '   And Not parms.EventID.Substring(0, 5) = "OH068" And Not parms.EventID.Substring(0, 5) = "OH012" _
-            '   And Not parms.EventID.Substring(0, 5) = "OH019" And Not parms.EventID.Substring(0, 5) = "IN010" _
-            '   And Not parms.EventID.Substring(0, 5) = "IN053" And Not parms.EventID.Substring(0, 5) = "IN007" _
-            '   And Not parms.EventID.Substring(0, 5) = "IN045" And Not parms.EventID.Substring(0, 5) = "IN104" _
-            '   And Not parms.EventID.Substring(0, 5) = "TX094" And Not parms.EventID.Substring(0, 5) = "TX156" _
-            '   And Not parms.EventID.Substring(0, 5) = "MO014" And Not parms.EventID.Substring(0, 5) = "OK121" _
-            '   And Not parms.EventID.Substring(0, 5) = "SC047" _
-            '   And Not parms.EventID.Substring(0, 5) = "MO037" And Not parms.EventID.Substring(0, 5) = "MO086" _
-            '   And Not parms.EventID.Substring(0, 5) = "MO102" And Not parms.EventID.Substring(0, 5) = "MO062" _
-            '   And Not parms.EventID.Substring(0, 5) = "TN042" And Not parms.EventID.Substring(0, 5) = "TN032" _
-            '   And Not parms.EventID.Substring(0, 5) = "IA023" And Not parms.EventID.Substring(0, 5) = "IA053" _
-            '   And Not parms.EventID.Substring(0, 5) = "IA074" And Not parms.EventID.Substring(0, 5) = "IA076" _
-            '   And Not parms.EventID.Substring(0, 5) = "IA125" And Not parms.EventID.Substring(0, 5) = "IA078" _
-            '   And Not parms.EventID.Substring(0, 5) = "IA117" And Not parms.EventID.Substring(0, 5) = "IA075" Then
 
-            '    'redirect to a page that states not active page
-            '    Response.Redirect("CatEntry005.aspx")
+            'Dim slibrary As String = System.Configuration.ConfigurationManager.AppSettings("LIBRARY")
 
+            'If Session("LIBRARY") Is Nothing Then
+            '    Session("LIBRARY") = slibrary
             'End If
-
-            'todo - remove comments from security check
-            'If oSessionManager.IsLoggedIn = False Then
-            '    Response.Redirect("CatEntry005.aspx")
-            'End If
-
-            Dim slibrary As String = System.Configuration.ConfigurationManager.AppSettings("LIBRARY")
-
-            If Session("LIBRARY") Is Nothing Then
-                Session("LIBRARY") = slibrary
-            End If
 
             'todo - Activate Security checks
             parms.IDKey = "IASJ"
@@ -500,7 +460,7 @@ Partial Class CatEntry001
             'Dim dr As iDB2DataReader
             'Load table by calling function out of ClassiSeriesDataAccess
             'dr = oiSeries.LoadCatsGroupsDataTable(rdonly, eventType)
-            DTCats = oiSeries.LoadCatsGroupsDataTable(rdonly, eventType)
+            DTCats = LoadCatsGroupsDataTable(rdonly, eventType)
             'DTCats.Load(dr)
 
         Catch ex As Exception
@@ -520,7 +480,7 @@ Partial Class CatEntry001
             DT.Clear()
             Dim dr As DataRow
             'Load table by calling function out of ClassiSeriesDataAccess
-            DT = oiSeries.LoadCatalogDataTable(parms.EventDate, parms.EventID.Substring(6, 1), parms.EventID.Substring(0, 2))
+            DT = LoadCatalogDataTable(parms.EventDate, parms.EventID.Substring(6, 1), parms.EventID.Substring(0, 2))
 
             'Get catalog name from table
             If DT.Rows.Count > 0 Then
@@ -637,7 +597,7 @@ Partial Class CatEntry001
             'Dim maxAllowed As Decimal = 0
             Dim maxOrderQtty As Decimal = DataBinder.Eval(e.Item.DataItem, "cceop")
             Dim multipleQtty As Decimal = DataBinder.Eval(e.Item.DataItem, "ccmqoh")
-            Dim imgPath As String = "/Images/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".jpg"
+            Dim imgPath As String = "Images/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".jpg"
             Dim txtPath As String = "/Doc/Descriptions/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".txt"
 
             img = CType(e.Item.FindControl("img1"), System.Web.UI.WebControls.Image)
@@ -653,7 +613,6 @@ Partial Class CatEntry001
             End If '
 
             Dim toolHeader As String = DataBinder.Eval(e.Item.DataItem, "itmdsc")
-
 
             If Not img Is Nothing Then
                 img.ImageUrl = imgPath
@@ -697,7 +656,7 @@ Partial Class CatEntry001
                 '    'lnk = "<a href=""javascript:;"" title='" + toolTip + "' />"
                 'End If
             Else
-                img.ImageUrl = "~/Images/ImageNotAvailable.jpg"
+                img.ImageUrl = "Images/ImageNotAvailable.jpg"
                 'ttText = "<div style=""border: 2px solid #999999; float:center; margin: 3px;"">"
                 'ttText += "<center><h3 style='text-align:center'>" + toolHeader + "</h3></center>"
                 'ttText += "<img src='Images/ImageNotAvailable.jpg' /></div>"

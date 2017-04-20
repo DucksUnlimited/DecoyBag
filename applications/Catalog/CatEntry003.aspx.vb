@@ -1,16 +1,16 @@
-Imports IBM.Data.DB2.iSeries
-Imports System.io
+Imports System.IO
 Imports System.Data
 Imports System.Net.Mail
 Imports ExpertPdf.HtmlToPdf
-Imports System.Web.UI.HtmlControls
+Imports iSeriesDB.iSeriesCatalog
+Imports IBM.Data.DB2.iSeries
 'Imports CommonRoutines
 
 Partial Class CatEntry003
     Inherits System.Web.UI.Page
 
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Dim pageError As Boolean = False
 
@@ -198,7 +198,7 @@ Partial Class CatEntry003
                         cbApprove.Checked = True
                         hrdonly.Value = "Y"
                     End If
-                    dr = oiSeries.LoadCustomer(evID)
+                    dr = LoadCustomer(evID)
                     If dr.Read Then
                         'bill to
                         LBLbillchapter.Text = dr("CSTNUM")
@@ -236,17 +236,21 @@ Partial Class CatEntry003
                             fflnum.Text = ""
                         End If
                     End If
-                    End If
-                    cityState = LBLcshp6.Text.Trim()
-                    r = cityState.Length - 1
-                    shipToState = cityState.Substring(r - 1, 2)
-                    LBLcshp6.Text = cityState.Substring(0, r - 2)
+                End If
+                cityState = LBLcshp6.Text.Trim()
+                r = cityState.Length - 1
+                shipToState = cityState.Substring(r - 1, 2)
+                LBLcshp6.Text = cityState.Substring(0, r - 2)
 
-                    ddlState.SelectedIndex = ddlState.Items.IndexOf(ddlState.Items.FindByValue(shipToState))
+                ddlState.SelectedIndex = ddlState.Items.IndexOf(ddlState.Items.FindByValue(shipToState))
 
             End If
 
         Catch ex As Exception
+            'Response.Clear()
+            'Response.Write("error in load <br />" + ex.Message + "<br />")
+            'Response.Flush()
+            'Response.End()
         End Try
 
     End Sub
@@ -262,7 +266,13 @@ Partial Class CatEntry003
         Dim lctrace As Long = 0
 		Dim lcttext As String = " "
 
+        'Response.Clear()
+        'Response.Flush()
+
         Try
+
+            'Response.Write("Start of submit <br />")
+            'Response.Flush()
 
             If Not pageError Then
 
@@ -270,6 +280,10 @@ Partial Class CatEntry003
                 LBLcshp6.Text += " " & ddlState.SelectedItem.Value.Trim()
 
                 'save screen varibles to session so these fields can be used in next screen
+
+
+                'Response.Write("Start of Bill to & ship to layout <br />")
+                'Response.Flush()
 
                 'bill to
                 Session("LBLbillchapter") = LBLbillchapter.Text.Trim()
@@ -313,14 +327,18 @@ Partial Class CatEntry003
                 End If
 
                 'update header and detail on as/400 and return order number
-                sOrder = oiSeries.SaveOrder(DTOrder, _
-                    LBLcshp1.Text.ToUpper, LBLcshp2.Text.ToUpper, LBLcshp3.Text.ToUpper, LBLcshp6.Text.ToUpper, LBLcshpza.Text, LBLcshpz2.Text, _
-                    fflorg.Text, fflattn.Text, ffladdr.Text, fflcity.Text, ddlFFLState.SelectedItem.Value.Trim(), fflzip5.Text, fflzip4.Text, fflnum.Text, Format(fflexp.SelectedDate, "yyyyMMdd"), _
+
+                'Response.Write("Save order <br />")
+                'Response.Flush()
+
+                sOrder = SaveOrder(parms.EventID, parms.EventDate, parms.UserID, parms.RDNUM, DTOrder,
+                    LBLcshp1.Text.ToUpper, LBLcshp2.Text.ToUpper, LBLcshp3.Text.ToUpper, LBLcshp6.Text.ToUpper, LBLcshpza.Text, LBLcshpz2.Text,
+                    fflorg.Text, fflattn.Text, ffladdr.Text, fflcity.Text, ddlFFLState.SelectedItem.Value.Trim(), fflzip5.Text, fflzip4.Text, fflnum.Text, Format(fflexp.SelectedDate, "yyyyMMdd"),
                     emailaddr.Text, comments.Text.ToString.Trim, approved, parms.TotPrice, parms.CatName, Session("UpdateOrderNumber"))
                 If sOrder.Trim = "" Then
-                    Throw New Exception(oiSeries.GetLastError)
+                    Throw New Exception("Error in SaveOrder in CatEntry003")
                 End If
-
+                sOrder = Session("UpdateOrderNumber")
                 parms.CurOrder = sOrder
 
                 'date = Mid$(date,7,2) & "/" & Mid$(date,5,2) & "/" & Mid$(date,1,4)
@@ -372,6 +390,10 @@ Partial Class CatEntry003
                 'pdfConverter.SavePdfFromUrlToFile(url, outFilePath)
                 urlBase = urlBase.Remove(urlBase.LastIndexOf(dirLevel), ((urlBase.Length) - urlBase.LastIndexOf(dirLevel))) + dirLevel
                 pdfConverter.SavePdfFromHtmlStringToFile(htmlCodeToConvert, outFilePath, urlBase)
+
+
+                'Response.Write("Start of email build <br />")
+                'Response.Flush()
 
                 'Code for eMail function
                 'send email regarding the order to Vol, RD, Corr and attach a PDF of the order
@@ -462,6 +484,11 @@ Partial Class CatEntry003
 
                 Session("LBLsOrder") = sOrder
 
+
+                'Response.Write("End of submit <br />")
+                'Response.Flush()
+                'Response.End()
+
                 'Redirect to final page if all is good in ShipTo information. 
                 Response.Redirect("CatEntry004.aspx")
 
@@ -471,6 +498,12 @@ Partial Class CatEntry003
 
             'Save error message for display on master page
             'lblError.Text = ex.Message & "Trace point:" & lctrace & " - " & lcttext
+
+
+            'Response.Write("error received <br />" + ex.Message + "<br />")
+            'Response.Flush()
+            'Response.End()
+
             lblError.Text = ex.Message
 
         End Try

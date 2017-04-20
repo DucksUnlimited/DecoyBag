@@ -1,11 +1,12 @@
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 
 
 Partial Class CatGroup001
     Inherits System.Web.UI.Page
+
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -49,7 +50,7 @@ Partial Class CatGroup001
                 End If
 
                 'Run the SQL Query to get data
-                Dim dtl As DataTable = oiSeries.GetGroupList
+                Dim dtl As DataTable = GetGroupList()
                 'Bind the Returned Data to the Data Grid for Display
                 GridView1.DataSource = dtl
                 GridView1.DataBind()
@@ -73,9 +74,9 @@ Partial Class CatGroup001
             Dim sGroup As String = ""
 
             'get next group number on as/400 
-            sGroup = oiSeries.GetNextGroupCATR003()
+            sGroup = GetNextGroupCATR003()
             If sGroup.Trim = "" Then
-                Throw New Exception(oiSeries.GetLastError)
+                Throw New Exception("Invalid next group CatGroup001")
             End If
 
             Session("sGROUPNUM") = sGroup

@@ -4,7 +4,6 @@ Partial Class CatEntryPDF
     Inherits System.Web.UI.Page
 
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
 
     Dim tQtyOrd As Integer = 0
     Dim ExtCost As Decimal = CDec(0.0)

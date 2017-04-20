@@ -1,10 +1,10 @@
 Imports System.Data
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 
 Partial Class QuotedOrders
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Dim mvLastError As String
 
@@ -59,7 +59,7 @@ Partial Class QuotedOrders
                 Session("PageTitle") = " "
 
 
-                DT = oiSeries.LoadQuotOrderListALL()
+                DT = LoadQuotOrderListALL()
                 If DT.Rows.Count > 0 Then
                     GridView1.DataSource = DT
                     GridView1.DataBind()

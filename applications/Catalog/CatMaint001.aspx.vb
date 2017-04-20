@@ -1,10 +1,10 @@
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 
 Partial Class CatMaint001
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -47,7 +47,7 @@ Partial Class CatMaint001
                     Session("UrlStart") = urlStart
                 End If
                 'Run the SQL Query to get data
-                Dim dtl As DataTable = oiSeries.GetCatList
+                Dim dtl As DataTable = GetCatList
                 'Bind the Returned Data to the Data Grid for Display
                 GridView1.DataSource = dtl
                 GridView1.DataBind()

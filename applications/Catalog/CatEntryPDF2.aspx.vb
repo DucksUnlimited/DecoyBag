@@ -1,12 +1,11 @@
 Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 
 Partial Class CatEntryPDF2
     Inherits System.Web.UI.Page
 
     Public parms As New ClassSessionManager
-
-    Public oiSeries As New ClassiSeriesDataAccess
 
     Dim tQtyOrd As Integer = 0
     Dim tExtCost As Decimal = CDec(0.0)
@@ -46,7 +45,7 @@ Partial Class CatEntryPDF2
 
             'Build key for Order Header information 
             'Key is order number
-            drOrdHdr = oiSeries.LoadOrderHeader(parms.CurOrder)
+            drOrdHdr = LoadOrderHeader(parms.CurOrder)
 
             'Check to see if header was read
             If drOrdHdr.Read Then
@@ -90,7 +89,7 @@ Partial Class CatEntryPDF2
             End If
 
             'get order detail lines
-            Dim dtDetail As iDB2DataReader = oiSeries.LoadOrderDetail(parms.CurOrder)
+            Dim dtDetail As iDB2DataReader = LoadOrderDetail(parms.CurOrder)
             'bind the order lines to the datagrid so we may see them
             GridView1.DataSource = dtDetail
             GridView1.DataBind()

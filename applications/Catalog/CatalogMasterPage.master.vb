@@ -2,8 +2,6 @@
 Partial Class MasterPage
     Inherits System.Web.UI.MasterPage
 
-    
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Try
 
@@ -33,8 +31,10 @@ Partial Class MasterPage
             'Display error from session variable
             If Not IsNothing(Session("LastError")) Then
                 lblError.Text = Session("LastError")
+                Session("LastError") = ""
             Else 'If not declared yet, create blank session variable
                 Session("LastError") = ""
+                lblError.Text = " "
             End If
 
         Catch ex As Exception

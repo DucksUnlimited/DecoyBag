@@ -1,9 +1,9 @@
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 Partial Class CatMaint002
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    ' Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -12,7 +12,7 @@ Partial Class CatMaint002
                 Dim wkdate As String
 
                 If Session("sLOADREC") = "1" Then
-                    Dim dtcat1 As DataTable = oiSeries.GetCat(Session("sCCCON#"))
+                    Dim dtcat1 As DataTable = GetCat(Session("sCCCON#"))
                     Dim dr1 As DataRow
                     If Not IsNothing(dtcat1) Then
                         dr1 = dtcat1.Rows(0)
@@ -51,12 +51,12 @@ Partial Class CatMaint002
 
             Select Case Session("sMode")
                 Case "INSERT"
-                    rtnbool = oiSeries.InsertCat(TxtCatName.Text, Format(CatEffDate.SelectedDate, "yyyyMMdd"), Format(CatExpDate.SelectedDate, "yyyyMMdd"), TxtCatType.Text)
+                    rtnbool = InsertCat(TxtCatName.Text, Format(CatEffDate.SelectedDate, "yyyyMMdd"), Format(CatExpDate.SelectedDate, "yyyyMMdd"), TxtCatType.Text)
                 Case "UPDATE"
-                    rtnbool = oiSeries.UpdateCat(TxtCatName.Text, Format(CatEffDate.SelectedDate, "yyyyMMdd"), Format(CatExpDate.SelectedDate, "yyyyMMdd"), TxtCatType.Text)
+                    rtnbool = UpdateCat(TxtCatName.Text, Format(CatEffDate.SelectedDate, "yyyyMMdd"), Format(CatExpDate.SelectedDate, "yyyyMMdd"), TxtCatType.Text)
             End Select
             If rtnbool = False Then
-                LblError.Text = oiSeries.GetLastError
+                'LblError.Text = oiSeries.GetLastError
             Else
                 Session("sCCCON#") = TxtCatName.Text
                 Session("sEXPIRED") = "0"

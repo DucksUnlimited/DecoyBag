@@ -1,10 +1,10 @@
 Imports System.Data
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 
 Partial Class HeldOrders
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Dim mvLastError As String
 
@@ -58,7 +58,7 @@ Partial Class HeldOrders
                 Session("PageTitle") = " "
 
 
-                DT = oiSeries.LoadHeldOrderListALL()
+                DT = LoadHeldOrderListALL()
                 If DT.Rows.Count > 0 Then
                     GridView1.DataSource = DT
                     GridView1.DataBind()
@@ -152,7 +152,6 @@ Partial Class HeldOrders
         'Reset last error
         mvLastError = ""
 
-
         Try
             Response.Redirect("FieldOpsMenu001.aspx")
 
@@ -162,14 +161,12 @@ Partial Class HeldOrders
 
         End Try
 
-
     End Sub
 
     Protected Sub GridView1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridView1.SelectedIndexChanged
 
         'Reset last error
         mvLastError = ""
-
 
         Try
             Session("sOrder") = GridView1.SelectedRow.Cells(1).Text
@@ -182,9 +179,6 @@ Partial Class HeldOrders
 
         End Try
 
-
-
     End Sub
-
 
 End Class

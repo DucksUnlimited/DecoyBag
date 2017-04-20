@@ -1,10 +1,13 @@
 Imports System.Data
+Imports iSeriesDB.iSeriesCatalog
 
 Partial Class ReturnCodes001
     Inherits System.Web.UI.Page
-    Public oiSeries As New ClassiSeriesDataAccess
+
+    'Public oiSeries As New ClassiSeriesDataAccess
     Public parms As New ClassSessionManager
     Dim mvLastError As String
+
     Private Property DT() As DataTable
         Get
             If Session("DT") Is Nothing Then
@@ -51,16 +54,11 @@ Partial Class ReturnCodes001
                 Session("EventTitle") = " "
                 Session("PageTitle") = " "
 
-
-
             End If
-
-
 
         Catch ex As Exception
             mvLastError = ex.Message
             'Return Nothing
-
 
         End Try
 
@@ -80,7 +78,7 @@ Partial Class ReturnCodes001
                 GridView1.Visible = False
             Else
 
-                DT = oiSeries.GetReturnRecords(Format(StartDate.SelectedDate, "yyyyMMdd"), Format(EndDate.SelectedDate, "yyyyMMdd"))
+                DT = GetReturnRecords(Format(StartDate.SelectedDate, "yyyyMMdd"), Format(EndDate.SelectedDate, "yyyyMMdd"))
                 If DT.Rows.Count > 0 Then
                     GridView1.DataSource = DT
                     GridView1.DataBind()

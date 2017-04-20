@@ -134,9 +134,7 @@
     <Compile Include="iSeriesCatalog.vb" />
     <Compile Include="iSeriesCommon.vb" />
     <Compile Include="iSeriesCompMag.vb" />
-    <Compile Include="iSeriesConvention.vb" />
     <Compile Include="iSeriesEvents.vb" />
-    <Compile Include="iSeriesFIDO.vb" />
     <Compile Include="iSeriesGroup1.vb" />
     <Compile Include="iSeriesIDBadges.vb" />
     <Compile Include="iSeriesInventory.vb" />

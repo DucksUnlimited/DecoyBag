@@ -1,10 +1,11 @@
 ﻿Imports System.IO
 Imports System.Data
+Imports iSeriesDB.iSeriesCatalog
 
 Partial Class ProductDetails
     Inherits System.Web.UI.UserControl
 
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Public Property CCNumb() As String
         Get
@@ -28,7 +29,7 @@ Partial Class ProductDetails
             MyBase.OnPreRender(e)
 
             Dim itmimg As New Image
-            itmimg.ImageUrl = "~/Images/" + CCNumb.ToString().Trim() + ".jpg"
+            itmimg.ImageUrl = "Images/" + CCNumb.ToString().Trim() + ".jpg"
             Dim desc As New Label
             desc.Text = " "
             Dim details As New Literal
@@ -62,7 +63,7 @@ Partial Class ProductDetails
         Dim lit As System.Web.UI.WebControls.Literal = CType(ProductsView.FindControl("ttdetail"), Literal)
         Dim desc As Label = CType(ProductsView.FindControl("itmdesc"), Label)
         Dim ttText As String
-        Dim toolHeader As String = oiSeries.GetItemDesc(CCNumb.ToString().Trim())
+        Dim toolHeader As String = GetItemDesc(CCNumb.ToString().Trim())
 
         desc.Text = toolHeader
 
@@ -70,7 +71,7 @@ Partial Class ProductDetails
         '    Return
         'End If
 
-        If Not File.Exists(imgpath) Then
+        If Not File.Exists(imgPath) Then
             itmimage.ImageUrl = "Images/ImageNotAvailable.jpg"
         Else
             itmimage.ImageUrl = "Images/" + CCNumb.ToString().Trim() + ".jpg"

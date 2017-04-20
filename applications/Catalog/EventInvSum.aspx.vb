@@ -1,13 +1,13 @@
-Imports System.IO
+Imports iSeriesDB.iSeriesCatalog
 Imports system.data
 Partial Class EventInvSum
     Inherits System.Web.UI.Page
 
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Dim dtl As DataTable = oiSeries.GetEventInvSum()
+        Dim dtl As DataTable = GetEventInvSum()
 
         'Bind the Returned Data to the Data Grid for Display
 

@@ -1,5 +1,5 @@
 <%@ Page Language="VB" MasterPageFile="~/DUIMasterPage.master" AutoEventWireup="false" CodeFile="CatEntry003.aspx.vb" Inherits="CatEntry003" title="Ship To" %>
-<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI" TagPrefix="asp" %> 
+<%--<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI" TagPrefix="asp" %> --%>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit"%>
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
@@ -444,7 +444,7 @@
     </table>
   </div>
 </asp:Panel>  
-<telerik:RadAjaxManager ID="RAJM1" runat="server" DefaultLoadingPanelID="LoadingPanel1" >
+<%--<telerik:RadAjaxManager ID="RAJM1" runat="server" DefaultLoadingPanelID="LoadingPanel1" >
     <AjaxSettings>
         <telerik:AjaxSetting AjaxControlID="btnSubmit">
             <UpdatedControls>
@@ -456,5 +456,5 @@
 </telerik:RadAjaxManager>
   <telerik:RadAjaxLoadingPanel ID="LoadingPanel1" runat="server" Transparency="30"  HorizontalAlign="Center" BackColor="#E0E0E0">
   <img alt="Building Order..." src="/DUI/Images/2loading.gif"  align="absmiddle" />
-  </telerik:RadAjaxLoadingPanel>
+  </telerik:RadAjaxLoadingPanel>--%>
 </asp:Content>

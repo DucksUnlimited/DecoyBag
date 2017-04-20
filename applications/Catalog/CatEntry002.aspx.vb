@@ -1,12 +1,12 @@
 Imports System.Data
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 
 Partial Class CatEntry002
     Inherits System.Web.UI.Page
 
     Public parms As New ClassSessionManager
     Dim objGen As New GeneralRoutines
-    Dim oiSeries As New ClassiSeriesDataAccess
+    'Dim oiSeries As New ClassiSeriesDataAccess
 
     Dim tQtyOrd As Integer = 0
     Dim ExtCost As Decimal = CDec(0.0)
@@ -173,9 +173,9 @@ Partial Class CatEntry002
                 DTOrder.Clear()
             End If
 
-            Dim dr2 As iDB2DataReader = oiSeries.LoadQuotOrderDetail(Session("UpdateOrderNumber"))
-            Dim dtQuote As New DataTable
-            dtQuote.Load(dr2)
+            'Dim dr2 As iDB2DataReader = LoadQuotOrderDetail(Session("UpdateOrderNumber"))
+            Dim dtQuote As DataTable = LoadQuotOrderDetail(Session("UpdateOrderNumber"))
+            'dtQuote.Load(dr2)
 
             Dim tQtyOrd As Integer = 0
             Dim ExtCost As Decimal = CDec(0.0)
@@ -238,7 +238,7 @@ Partial Class CatEntry002
             DT.Clear()
             Dim dr As DataRow
             'Load table by calling function out of ClassiSeriesDataAccess
-            DT = oiSeries.LoadCatalogDataTable(parms.EventDate, parms.EventID.Substring(6, 1), parms.EventID.Substring(0, 2))
+            DT = LoadCatalogDataTable(parms.EventDate, parms.EventID.Substring(6, 1), parms.EventID.Substring(0, 2))
 
             'Get catalog name from table
             If DT.Rows.Count > 0 Then

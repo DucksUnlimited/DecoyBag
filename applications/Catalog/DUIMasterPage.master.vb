@@ -17,9 +17,6 @@ Partial Class MasterPage
             If Session("EventTitle") Is Nothing Then
                 Session.Add("EventTitle", String.Empty)
             End If
-            If Session("LastError") Is Nothing Then
-                Session.Add("LastError", String.Empty)
-            End If
 
             'TODO - Get page title from query string
             UpdateOrd.Text = Session("UpdateOrd")
@@ -36,8 +33,10 @@ Partial Class MasterPage
             'Display error from session variable
             If Not IsNothing(Session("LastError")) Then
                 lblError.Text = Session("LastError")
+                Session("LastError") = ""
             Else 'If not declared yet, create blank session variable
                 Session("LastError") = ""
+                lblError.Text = " "
             End If
 
         Catch ex As Exception

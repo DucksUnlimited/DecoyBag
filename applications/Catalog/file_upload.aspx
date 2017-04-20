@@ -1,4 +1,4 @@
-   <script language="VB" runat=server>
+   <script language="VB" runat="server">
 
        Sub DoUpload(Sender As Object, e As System.EventArgs)
           Dim sPath as String
@@ -47,22 +47,24 @@
     </script>
 <html>
 
-
+    <head>
+        <title></title>
+    </head>
 
     <body>
 
-      <form enctype="multipart/form-data" runat=server>
+      <form enctype="multipart/form-data" runat="server">
 			
-          <FONT face = +1><B>
+          <font face="+1"><b>
 
-           Select File To Upload:</b></FONT>
-           <input id="txtUpload" type=file runat=server>
-			<P align = CENTER>
-          <asp:button id=btnUpload Text="Upload File" OnClick="DoUpload" runat=server/>
-			
+           Select File To Upload:</b></font>
+           <input id="txtUpload" type="file" runat="server"/>
+			<p align="center">
+          <asp:button id="btnUpload" Text="Upload File" OnClick="DoUpload" runat="server"/>
+			</p>
        <!--   <hr noshade> -->
 
-          <asp:label id="lblResults" Visible=false runat=server/>
+          <asp:label id="lblResults" Visible="false" runat="server"/>
           <p>
               &nbsp;</p>
           <p>
@@ -72,14 +74,14 @@
           <p>
               &nbsp;</p>
           <p>
-              <asp:Table ID="Table1" runat="server" Height="328px" Width="1024px" BorderWidth=4 CellSpacing=5 BorderStyle="Dotted" >
-                <asp:TableHeaderRow runat="server" TableSection=TableHeader HorizontalAlign=Center BorderStyle=Solid>
-                    <asp:TableHeaderCell ID="F1" runat="server"  Text="Field 1" VerticalAlign=Middle Width=20%></asp:TableHeaderCell>
+              <asp:Table ID="Table1" runat="server" Height="328px" Width="1024px" BorderWidth="4" CellSpacing="5" BorderStyle="Dotted" >
+                <asp:TableHeaderRow runat="server" TableSection="TableHeader" HorizontalAlign="Center" BorderStyle="Solid">
+                    <asp:TableHeaderCell ID="F1" runat="server"  Text="Field 1" VerticalAlign="Middle" Width="20%"></asp:TableHeaderCell>
                     <asp:TableHeaderCell ID="F2" runat="server" Text="Field 2"></asp:TableHeaderCell>                    
                 </asp:TableHeaderRow>
-                <asp:TableRow runat="server" HorizontalAlign=Right BorderStyle=Solid>
+                <asp:TableRow runat="server" HorizontalAlign="Right" BorderStyle="Solid">
                     <asp:TableCell ID="C1" runat="server" Text="1" AssociatedHeaderCellID="F1"></asp:TableCell>
-                    <asp:TableCell ID="C2" runat="server" Text="2" AssociatedHeaderCellID="F2" HorizontalAlign=Left></asp:TableCell>
+                    <asp:TableCell ID="C2" runat="server" Text="2" AssociatedHeaderCellID="F2" HorizontalAlign="Left"></asp:TableCell>
                 </asp:TableRow>  
               </asp:Table>
               &nbsp;</p> 

@@ -88,7 +88,7 @@
         </div>
         <div id="APPLICATION">
                 <form id="form1" runat="server">
-                <telerik:RadScriptManager ID="ScriptManager1" runat="server" />
+<%--                <telerik:RadScriptManager ID="ScriptManager1" runat="server" />--%>
                     <asp:Label ID="lblError" runat="server" ForeColor="Red" Style="z-index: 100; left: 5px;
                         position: absolute; top: 12px"></asp:Label><br />
                 <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">

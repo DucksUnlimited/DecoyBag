@@ -1,10 +1,10 @@
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 
 Partial Class CatGroup002
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -14,7 +14,7 @@ Partial Class CatGroup002
             'Get group record if LoadREc parm passed
             If Session("sLOADREC") = "1" Then
 
-                Dim dtgroup1 As DataTable = oiSeries.GetGroup(Session("sCATGRP"))
+                Dim dtgroup1 As DataTable = GetGroup(Session("sCATGRP"))
                 Dim dr1 As DataRow
 
                 'Move to screen if
@@ -78,9 +78,9 @@ Partial Class CatGroup002
 
             Select Case Session("sMode")
                 Case "INSERT"
-                    rtnbool = oiSeries.InsertGroup(TxtGroup.Text, TxtDesc.Text, DropDownType.SelectedItem.Value)
+                    rtnbool = InsertGroup(TxtGroup.Text, TxtDesc.Text, DropDownType.SelectedItem.Value)
                 Case "UPDATE"
-                    rtnbool = oiSeries.UpdateGroup(TxtGroup.Text, TxtDesc.Text, DropDownType.SelectedItem.Value)
+                    rtnbool = UpdateGroup(TxtGroup.Text, TxtDesc.Text, DropDownType.SelectedItem.Value)
             End Select
 
             'Display error or return to main if done

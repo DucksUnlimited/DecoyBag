@@ -1,10 +1,10 @@
 Imports IBM.Data.DB2.iSeries
-'Imports SkySof.CustomTip
+Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 Partial Class Orders
     Inherits System.Web.UI.Page
 
-    Dim oiSeries = New ClassiSeriesDataAccess
+    'Dim oiSeries = New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -16,8 +16,8 @@ Partial Class Orders
         TimeSH.Text = DateTime.Now.ToString("h:mm:ss - tt")
 
         'Load Order Header and Detail
-        Dim dr As iDB2DataReader = oiSeries.LoadOrderHeaderP(Request("HTNUM"))
-        Dim drOrdDtl As iDB2DataReader = oiSeries.LoadOrderDetailP(Request("HTNUM"))
+        Dim dr As iDB2DataReader = LoadOrderHeaderP(Request("HTNUM"))
+        Dim drOrdDtl As iDB2DataReader = LoadOrderDetailP(Request("HTNUM"))
         Dim dt As DataTable
 
         'Move order header fields to screen
@@ -36,7 +36,7 @@ Partial Class Orders
                             OrderStatus.Text = "Order on BackOrder"
                         Else
                             OrderStatus.Text = "Order Shipped"
-                            dt = oiSeries.LoadUPSTracking(Request("HTNUM"))
+                            dt = LoadUPSTracking(Request("HTNUM"))
                             Dim alt As Boolean
                             alt = False
                             If dt.Rows.Count > 0 Then

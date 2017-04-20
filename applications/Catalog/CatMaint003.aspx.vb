@@ -1,11 +1,11 @@
-Imports IBM.Data.DB2.iSeries
+Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 Imports System.IO
 
 Partial Class CatMaint003
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    Public oiSeries As New ClassiSeriesDataAccess
+
     Dim curdate As String = Format(Date.Today(), "yyyyMMdd")
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         'Run the SQL Query to get data
@@ -40,7 +40,7 @@ Partial Class CatMaint003
 
 
                 LblCatName.Text = Session("sCCCON#")
-                Dim dtl As DataTable = oiSeries.GetCatItemList(LblCatName.Text, Session("sEXPIRED"))
+                Dim dtl As DataTable = GetCatItemList(LblCatName.Text, Session("sEXPIRED"))
 
                 'Bind the Returned Data to the Data Grid for Display
 
@@ -211,7 +211,7 @@ Partial Class CatMaint003
             ButtonExpired.Text = "Show Expired Items"
         End If
 
-        Dim dtl As DataTable = oiSeries.GetCatItemList(LblCatName.Text, Session("sEXPIRED"))
+        Dim dtl As DataTable = GetCatItemList(LblCatName.Text, Session("sEXPIRED"))
 
         'Bind the Returned Data to the Data Grid for Display
 

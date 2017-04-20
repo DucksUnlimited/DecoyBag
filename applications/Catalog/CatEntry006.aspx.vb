@@ -1,11 +1,11 @@
 Imports IBM.Data.DB2.iSeries
 Imports System.Data
-Imports System.Data.OleDb
+Imports iSeriesDB.iSeriesCatalog
 
 Partial Class CatEntry006
     Inherits System.Web.UI.Page
 
-    Public oiSeries As New ClassiSeriesDataAccess
+    'Public oiSeries As New ClassiSeriesDataAccess
     Public parms As New ClassSessionManager
     Dim objDucks As New ClassDucksSystemCalls
     Dim objGen As New GeneralRoutines
@@ -121,9 +121,9 @@ Partial Class CatEntry006
                 'Parse query into parameters
                 parms.parseQueryString(Request)
 
-                oiSeries = New ClassiSeriesDataAccess
+                ' oiSeries = New ClassiSeriesDataAccess
 
-                Session("DTState") = oiSeries.LoadStateDropDown()
+                Session("DTState") = LoadStateDropDown()
 
                 If parms.EventID Is Nothing Or parms.EventID = "" Then
 
@@ -134,7 +134,7 @@ Partial Class CatEntry006
                     'ApprovedOrders.Visible = False
                     'NoApproved.Visible = False
 
-                    dtQuoteOrder = oiSeries.LoadQuotOrderListRD(parms.RDNUM)
+                    dtQuoteOrder = LoadQuotOrderListRD(parms.RDNUM)
 
                     'Check to see if there are any orders to pick from
                     If dtQuoteOrder.Rows.Count > 0 Then
@@ -185,7 +185,7 @@ Partial Class CatEntry006
                     Else
                         'NoOrder.Visible = True
                     End If
-                    oiSeries.Release()
+                    'oiSeries.Release()
                 End If
 
             End If
@@ -208,7 +208,7 @@ Partial Class CatEntry006
             'Build event type parameter
             Dim eventType As String = parms.EventID.Substring(6, 1)
             'Load table by calling function out of ClassiSeriesDataAccess
-            DTCats = oiSeries.LoadCatsGroupsDataTable(parms.RdOnly, eventType)
+            DTCats = LoadCatsGroupsDataTable(parms.RdOnly, eventType)
 
         Catch ex As Exception
             Session("LastError") = ex.Message
@@ -226,7 +226,7 @@ Partial Class CatEntry006
             DT.Clear()
             Dim dr As DataRow
             'Load table by calling function out of ClassiSeriesDataAccess
-            DT = oiSeries.LoadCatalogDataTable(parms.EventDate, parms.EventID.Substring(6, 1), parms.EventID.Substring(0, 2))
+            DT = LoadCatalogDataTable(parms.EventDate, parms.EventID.Substring(6, 1), parms.EventID.Substring(0, 2))
 
             'Get catalog name from table
             If DT.Rows.Count > 0 Then
@@ -247,10 +247,10 @@ Partial Class CatEntry006
 
             parms.RdOnly = True
 
-            oiSeries = New ClassiSeriesDataAccess
+            'oiSeries = New ClassiSeriesDataAccess
 
             'Get order header information from the selected order.
-            dr = oiSeries.LoadQuotOrderHeader(mvQuoteOrder)
+            dr = LoadQuotOrderHeader(mvQuoteOrder)
 
             Session("Approved") = True
 
@@ -331,9 +331,9 @@ Partial Class CatEntry006
                 DTOrder.Clear()
             End If
 
-            Dim dr2 As iDB2DataReader = oiSeries.LoadQuotOrderDetail(mvQuoteOrder)
             Dim dtQuote As New DataTable
-            dtQuote.Load(dr2)
+            dtQuote = LoadQuotOrderDetail(mvQuoteOrder)
+            'dtQuote.Load(dr2)
 
             Dim tQtyOrd As Integer = 0
             Dim ExtCost As Decimal = CDec(0.0)
@@ -368,7 +368,7 @@ Partial Class CatEntry006
             Dim sLineType As String = ""
 
             'get Coordinator cnaid from rd number
-            mvCoorID = oiSeries.GetCoordinatorInfo(parms.RDNUM)
+            mvCoorID = GetCoordinatorInfo(parms.RDNUM)
 
             'get Event information for duck system and fill the parameters with values
             dtDuckSystem = objDucks.GetEventData(parms.EventID, parms.EventDate, parms.RDID, mvCoorID, parms.UserID)
@@ -398,7 +398,7 @@ Partial Class CatEntry006
 
             BPostBack = True
 
-            oiSeries.Release()
+            'oiSeries.Release()
 
             Session("UpdateOrd") = "Updating Order -  " + Session("UpdateOrderNumber")
             Session("SystemTitle") = "Event Merchandise Order Entry"
