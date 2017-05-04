@@ -371,8 +371,8 @@ Partial Class CatEntry001
             For Each dgi As GridDataItem In dgCatalog.Items
 
                 'Grab product id
-                'Dim ProductID As String = dgi("ccnumb").Text.Trim
-                Dim ProductID As String = dgi.Cells(0).Text
+                Dim ProductID As String = dgi("ccnumb").Text.Trim
+                'Dim ProductID As String = dgi.Cells(0).Text
 
                 'Select product id from catalog list table to a datarow
                 Dim products As DataRow() = DT.Select("CCNUMB='" + ProductID + "'")
@@ -403,16 +403,16 @@ Partial Class CatEntry001
                         Dim dr As DataRow = DTOrder.NewRow()
 
                         'Set fields within new data row
-                        'dr(0) = dgi("ccnumb").Text.Trim
-                        dr(0) = dgi.Cells(0).Text 'Set qty in table
+                        dr(0) = dgi("ccnumb").Text.Trim
+                        'dr(0) = dgi.Cells(0).Text 'Set qty in table
                         dr(1) = ConvertToInt(txt)
-                        'dr(2) = dgi("itmdsc").Text.Trim
-                        'dr(3) = dgi("unitcost").Text
-                        dr(2) = dgi.Cells(6).Text
-                        dr(3) = dgi.Cells(3).Text
+                        dr(2) = dgi("itmdsc").Text.Trim
+                        dr(3) = dgi("unitcost").Text
+                        'dr(2) = dgi.Cells(6).Text
+                        'dr(3) = dgi.Cells(3).Text
                         dr(4) = 0
-                        'dr(5) = dgi("ccpzon").Text.Trim
-                        dr(5) = dgi.Cells(7).Text
+                        dr(5) = dgi("ccpzon").Text.Trim
+                        'dr(5) = dgi.Cells(7).Text
 
                         'Remove previous item from order table
                         RemoveFromOrderTable(ProductID)
@@ -683,12 +683,9 @@ Partial Class CatEntry001
 
     Protected Sub btnNext_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnNext.Click
 
-        If Page.IsValid Then
-            FillOrderTable()
-            'Redirect to location that started the catalog program.
-            Response.Redirect("CatEntry002.aspx")
-        End If
-
+        FillOrderTable()
+        'Redirect to location that started the catalog program.
+        Response.Redirect("CatEntry002.aspx", False)
 
     End Sub
 

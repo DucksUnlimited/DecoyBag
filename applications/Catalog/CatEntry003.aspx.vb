@@ -484,11 +484,6 @@ Partial Class CatEntry003
 
                 Session("LBLsOrder") = sOrder
 
-
-                'Response.Write("End of submit <br />")
-                'Response.Flush()
-                'Response.End()
-
                 'Redirect to final page if all is good in ShipTo information. 
                 Response.Redirect("CatEntry004.aspx")
 

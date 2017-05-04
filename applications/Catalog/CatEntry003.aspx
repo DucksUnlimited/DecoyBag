@@ -451,6 +451,6 @@
     <ClientEvents OnRequestStart="RequestStart" />
 </telerik:RadAjaxManager>
   <telerik:RadAjaxLoadingPanel ID="LoadingPanel1" runat="server" Transparency="30"  HorizontalAlign="Center" BackColor="#E0E0E0">
-  <img alt="Building Order..." src="/DUI/Images/2loading.gif"  align="middle" />
+  <img alt="Building Order..." src="/Images/2loading.gif"  align="middle" />
   </telerik:RadAjaxLoadingPanel>
 </asp:Content>
