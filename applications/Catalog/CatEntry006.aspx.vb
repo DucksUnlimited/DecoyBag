@@ -406,7 +406,7 @@ Partial Class CatEntry006
             Session("PageTitle") = "Item Selection"
 
             'Redirect to location that started the catalog program CatEntry001.aspx  
-            Response.Redirect("CatEntry001.aspx")
+            Response.Redirect("CatEntry001.aspx", False)
 
         Catch ex As Exception
             Session("LastError") = ex.Message

@@ -1,7 +1,7 @@
 Imports System.Data
 Imports iSeriesDB.iSeriesCatalog
-Imports Telerik.Web.UI
 Imports System.IO
+Imports Telerik.Web.UI
 
 Partial Class CatEntry001
     Inherits System.Web.UI.Page
@@ -315,6 +315,16 @@ Partial Class CatEntry001
                     dgCatalog.DataBind()
 
                     '---------------LOAD THE QUANTITIES RWM 6/13/2008-------------------
+                    'For Each dgi As DataGridItem In dgCatalog.Items
+                    '    Dim txt As TextBox = CType(dgi.FindControl("txtQ"), TextBox)
+                    '    If Not txt Is Nothing Then
+                    '        Dim drs As DataRow() = DTOrder.Select("ProductID='" + dgi.Cells(0).Text + "'")
+                    '        If (drs.Length > 0) Then
+                    '            Dim currentRow As DataRow = drs(0)
+                    '            txt.Text = IIf((Not currentRow("Qty").ToString().Trim() = String.Empty And Not currentRow("Qty").ToString().Trim() = "0"), currentRow("Qty").ToString().Trim(), String.Empty)
+                    '        End If
+                    '    End If
+                    'Next
                     For Each dgi As GridDataItem In dgCatalog.Items
                         Dim ProductID As String = dgi("ccnumb").Text.Trim
                         Dim txt As TextBox = CType(dgi.FindControl("txtQ"), TextBox)
@@ -357,11 +367,12 @@ Partial Class CatEntry001
         Try
 
             'Loop throuh all catalog items
+            'For Each dgi As GridDataItem In dgCatalog.Items
             For Each dgi As GridDataItem In dgCatalog.Items
 
                 'Grab product id
-                'Dim ProductID As String = dgi.Item("ccnumb").Text
-                Dim ProductID As String = dgi("ccnumb").Text.Trim
+                'Dim ProductID As String = dgi("ccnumb").Text.Trim
+                Dim ProductID As String = dgi.Cells(0).Text
 
                 'Select product id from catalog list table to a datarow
                 Dim products As DataRow() = DT.Select("CCNUMB='" + ProductID + "'")
@@ -392,14 +403,16 @@ Partial Class CatEntry001
                         Dim dr As DataRow = DTOrder.NewRow()
 
                         'Set fields within new data row
-                        dr(0) = dgi("ccnumb").Text.Trim
-                        'dr(0) = dgi.Cells(0).Text 'Set qty in table
+                        'dr(0) = dgi("ccnumb").Text.Trim
+                        dr(0) = dgi.Cells(0).Text 'Set qty in table
                         dr(1) = ConvertToInt(txt)
-                        dr(2) = dgi("itmdsc").Text.Trim
-                        dr(3) = dgi("unitcost").Text
+                        'dr(2) = dgi("itmdsc").Text.Trim
+                        'dr(3) = dgi("unitcost").Text
+                        dr(2) = dgi.Cells(6).Text
+                        dr(3) = dgi.Cells(3).Text
                         dr(4) = 0
-                        'dr(2) = ConvertToInt(dgi.Cells(7).Text)	'ccpzon
-                        dr(5) = dgi("ccpzon").Text.Trim
+                        'dr(5) = dgi("ccpzon").Text.Trim
+                        dr(5) = dgi.Cells(7).Text
 
                         'Remove previous item from order table
                         RemoveFromOrderTable(ProductID)
@@ -588,27 +601,22 @@ Partial Class CatEntry001
 
         If e.Item.ItemType = GridItemType.Item OrElse e.Item.ItemType = GridItemType.AlternatingItem Then
 
-            Dim lbl As New Label()
             Dim img As New System.Web.UI.WebControls.Image()
             'Dim lit As New Literal()
             'Dim lnk As String
             Dim itemNum As String = DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim()
-            Dim wrkQtty As Decimal = 0
             'Dim maxAllowed As Decimal = 0
-            Dim maxOrderQtty As Decimal = DataBinder.Eval(e.Item.DataItem, "cceop")
-            Dim multipleQtty As Decimal = DataBinder.Eval(e.Item.DataItem, "ccmqoh")
             Dim imgPath As String = "Images/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".jpg"
             Dim txtPath As String = "/Doc/Descriptions/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".txt"
 
             img = CType(e.Item.FindControl("img1"), System.Web.UI.WebControls.Image)
             'lit = CType(e.Item.FindControl("litLink"), Literal)
-            lbl = CType(e.Item.FindControl("multiAllow"), Label)
 
             Dim ctrl As Control = e.Item.FindControl("img1")
             If Not [Object].Equals(ctrl, Nothing) Then
                 If Not [Object].Equals(Me.RadToolTipManager1, Nothing) Then
                     'RadToolTipManager1.TargetControls.Add(ctrl.ClientID.ToString())
-                    Me.RadToolTipManager1.TargetControls.Add(ctrl.ClientID, (TryCast(e.Item, GridDataItem)).GetDataKeyValue("ccnumb").ToString(), True)
+                    RadToolTipManager1.TargetControls.Add(ctrl.ClientID, (TryCast(e.Item, GridDataItem)).GetDataKeyValue("ccnumb").ToString(), True)
                 End If
             End If '
 
@@ -616,60 +624,26 @@ Partial Class CatEntry001
 
             If Not img Is Nothing Then
                 img.ImageUrl = imgPath
-                'Dim toolTip As String
                 toolHeader = Replace(toolHeader, Chr(34), "")
-
-                'MsgBox(myString & vbCrLf & myString.Replace("""", ""))
-
-                'If File.Exists(txtPath) Then
-                '    Dim objStreamReader As StreamReader
-                '    objStreamReader = File.OpenText(txtPath)
-
-                '    ttText = "<div style=""border: 2px solid #999999; float:center; margin: 3px;"">"
-                '    ttText += "<center><h3 style=""text-align:center"">" + toolHeader + "</h3></center>"
-                '    ttText += "<img src=""Images/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".jpg"" /> <ul>"
-                '    While objStreamReader.Peek <> -1
-                '        ttText += "<li>" + objStreamReader.ReadLine() + "</li>"
-                '    End While
-                '    objStreamReader.Close()
-                '    ttText += "</ul></div>"
-                '    ttipsHolder.Controls.Add(GenerateToolTip(DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim(), ttText))
-
-
-                '    'toolDesc = "<ul>"
-                '    'While objStreamReader.Peek <> -1
-                '    '    toolDesc += "<li>" + objStreamReader.ReadLine() + "</li>"
-                '    'End While
-                '    'objStreamReader.Close()
-                '    'toolDesc += "</ul>"
-                '    'toolTip = "<h3 style='text-align:center'>" + toolHeader + "</h3>"
-                '    'toolTip += "<img src='Images/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".jpg' />"
-                '    'toolTip += toolDesc
-                '    ''toolTip += "<br/><br/><p style='padding:15px'>" + DataBinder.Eval(e.Item.DataItem, "itmdsc") + "</p>"
-
-                '    'lnk = "<a href=""javascript:;"" title=""" + toolTip + """ />"
-                'Else
-                '    ttText = "<div style=""border: 2px solid #999999; float:center; margin: 3px;"">"
-                '    ttText += "<center><h3 style='text-align:center'>" + toolHeader + "</h3></center>"
-                '    ttText += "<img src='Images/" + DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim() + ".jpg' /></div>"
-                '    ttipsHolder.Controls.Add(GenerateToolTip(DataBinder.Eval(e.Item.DataItem, "ccnumb").ToString().Trim(), ttText))
-                '    'lnk = "<a href=""javascript:;"" title='" + toolTip + "' />"
-                'End If
             Else
                 img.ImageUrl = "Images/ImageNotAvailable.jpg"
-                'ttText = "<div style=""border: 2px solid #999999; float:center; margin: 3px;"">"
-                'ttText += "<center><h3 style='text-align:center'>" + toolHeader + "</h3></center>"
-                'ttText += "<img src='Images/ImageNotAvailable.jpg' /></div>"
             End If
             If File.Exists(imgPath) Then
             Else
             End If
-
+            'End If
+            'If (TypeOf e.Item Is GridEditableItem) Then
             'set validation for quantity in the catalog list
+            'e.Item.Edit = True
+            Dim lbl As New Label()
+            Dim wrkQtty As Decimal = 0
+            Dim maxOrderQtty As Decimal = DataBinder.Eval(e.Item.DataItem, "cceop")
+            Dim multipleQtty As Decimal = DataBinder.Eval(e.Item.DataItem, "ccmqoh")
             Dim regexp As New RegularExpressionValidator()
             regexp = CType(e.Item.FindControl("RegExpQty"), RegularExpressionValidator)
             Dim rngpmax As New RangeValidator()
             rngpmax = CType(e.Item.FindControl("RVMaxQty"), RangeValidator)
+            lbl = CType(e.Item.FindControl("multiAllow"), Label)
 
             'Set max quantity based on who is entering/updating the order
             wrkQtty = 0
@@ -703,17 +677,18 @@ Partial Class CatEntry001
             End If
 
         End If
-        'End If
 
     End Sub
 
 
     Protected Sub btnNext_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnNext.Click
 
-        FillOrderTable()
+        If Page.IsValid Then
+            FillOrderTable()
+            'Redirect to location that started the catalog program.
+            Response.Redirect("CatEntry002.aspx")
+        End If
 
-        'Redirect to location that started the catalog program.
-        Response.Redirect("CatEntry002.aspx")
 
     End Sub
 

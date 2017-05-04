@@ -1,41 +1,39 @@
 <%@ Page Language="VB" MasterPageFile="~/DUIMasterPage.master" AutoEventWireup="false" CodeFile="CatEntry003.aspx.vb" Inherits="CatEntry003" title="Ship To" %>
-<%--<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI" TagPrefix="asp" %> --%>
+
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit"%>
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
-
-<%@ REGISTER tagprefix="telerik" assembly="Telerik.Web.UI" namespace="Telerik.Web.UI" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 <script type="text/javascript" src="JScript/Translate.js"> </script>
 
     <asp:HiddenField ID="hrdonly" runat="server" Value="N" />
     
-    <script type="text/javascript">
-        <telerik:RadCodeBlock id="RadCodeBlock1" runat="server">
-            function RequestStart()
-            {
-                var ordupdate = document.getElementById('<%= hrdonly.ClientID %>').value;
-
-                if (ordupdate == "N")
+    <telerik:RadCodeBlock id="RadCodeBlock1" runat="server">
+        <script type="text/javascript">
+                function RequestStart()
                 {
-                    return true;
-                }
-                var cbvalue = document.getElementById('<%= cbApprove.ClientID %>').checked;
+                    var ordupdate = document.getElementById('<%= hrdonly.ClientID %>').value;
 
-                if(!cbvalue)
-                {
-                    var c=confirm("Approval Box has not been checked. Click CANCEL to go back and check Approve Order box. Or click OK to exit the order without approving it.");
+                    if (ordupdate == "N")
+                    {
+                        return true;
+                    }
+                    var cbvalue = document.getElementById('<%= cbApprove.ClientID %>').checked;
 
-                        if(c)
-                            return true;
-                        else
-                            return false;
+                    if(!cbvalue)
+                    {
+                        var c=confirm("Approval Box has not been checked. Click CANCEL to go back and check Approve Order box. Or click OK to exit the order without approving it.");
+
+                            if(c)
+                                return true;
+                            else
+                                return false;
+                    }
+                    else{return true;
+                    }
                 }
-                else{return true;
-                }
-            }
-        </telerik:RadCodeBlock>
-    </script>
+        </script>
+    </telerik:RadCodeBlock>
 
 <asp:Panel ID="Panel1" runat="server" >
 <div align="center">
@@ -256,7 +254,6 @@
 	            <asp:Panel ID="FFLPanel" runat="server" Visible="false" Width="100%">
 
                     <script type="text/javascript">
-                        <!--
                         
                         function PopupAbove(e, pickerID)
                         { 
@@ -279,7 +276,6 @@
                             datePicker.showPopup(position.x, position.y - dimensions.height - 35);
                         }
                         
-                        -->
                     </script>
                     
                     <script type="text/javascript">
@@ -444,7 +440,7 @@
     </table>
   </div>
 </asp:Panel>  
-<%--<telerik:RadAjaxManager ID="RAJM1" runat="server" DefaultLoadingPanelID="LoadingPanel1" >
+<telerik:RadAjaxManager ID="RAJM1" runat="server" DefaultLoadingPanelID="LoadingPanel1" >
     <AjaxSettings>
         <telerik:AjaxSetting AjaxControlID="btnSubmit">
             <UpdatedControls>
@@ -455,6 +451,6 @@
     <ClientEvents OnRequestStart="RequestStart" />
 </telerik:RadAjaxManager>
   <telerik:RadAjaxLoadingPanel ID="LoadingPanel1" runat="server" Transparency="30"  HorizontalAlign="Center" BackColor="#E0E0E0">
-  <img alt="Building Order..." src="/DUI/Images/2loading.gif"  align="absmiddle" />
-  </telerik:RadAjaxLoadingPanel>--%>
+  <img alt="Building Order..." src="/DUI/Images/2loading.gif"  align="middle" />
+  </telerik:RadAjaxLoadingPanel>
 </asp:Content>

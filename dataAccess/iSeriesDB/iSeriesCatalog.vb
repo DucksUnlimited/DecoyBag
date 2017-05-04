@@ -1,7 +1,4 @@
-Imports Microsoft.VisualBasic
 Imports IBM.Data.DB2.iSeries
-Imports System.data
-Imports System.Web.HttpContext
 Imports System.Configuration
 
 Public Class iSeriesCatalog
@@ -1759,6 +1756,7 @@ Public Class iSeriesCatalog
 
         Catch ex As Exception
             mvLastError = ex.Message
+            Return Nothing
             'Current.Session("LastError") = ex.Message
         End Try
 

@@ -57,18 +57,18 @@
 <body>
     <div id="CONTAINER">
         <div id="HEADER">
-          <div id="DUCKHEAD"><a><img src="http://www.ducksystem.com/NATURAL/99725393.JPG"  align=middle border=0></a></div>
-          <div class='SCREEN-HIDE' style="position:relative; float: left;"><img src="http://www.ducksystem.com/NATURAL/99875006.GIF" border=0 width=45 height=30></div>
+          <div id="DUCKHEAD"><a><img src="http://www.ducksystem.com/NATURAL/99725393.JPG"  align="middle" alt="" border="0" /></a></div>
+          <div class='SCREEN-HIDE' style="position:relative; float: left;"><img src="http://www.ducksystem.com/NATURAL/99875006.GIF" alt=" " border="0" width="45" height="30" /></div>
           <div id="SYSTEM_INFO" align="right">
             <div id="TITLE" align="left" style="color:DarkGreen; font-size:16pt">
                 <asp:Label ID="UpdateOrd" runat="server"></asp:Label>
             </div>          
-            <div id="TIMESTAMPP" class=SCREEN-HIDE>
+            <div id="TIMESTAMPP" class="SCREEN-HIDE">
                 <asp:Label ID="DatePH" runat="server"></asp:Label>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:Label ID="TimePH" runat="server"></asp:Label>
             </div>  <!--- ending timestamp div -->
-            <div id="TIMESTAMPS" class=PRINTER-HIDE>
+            <div id="TIMESTAMPS" class="PRINTER-HIDE">
                 <asp:Label ID="DateSH" runat="server"></asp:Label>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:Label ID="TimeSH" runat="server"></asp:Label>
@@ -102,11 +102,11 @@
           </tr>
           <tr>
             <td width="10">
-              <table style="width: 750px" cellSpacing=0 cellPadding=0 border=0>
+              <table style="width: 750px" cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td width="10" class="footer" style="height: 20px"></td>
                   <td width="200" class="footer" valign="middle" align="left" style="height: 20px"><span style="COLOR: #666666">&#169;Ducks Unlimited, Inc.</span></td>
-                  <td width="540" class="footer" style="padding-right: 10px; height: 20px;" vAlign="middle" align="right"><a href="http://www.ducks.org/contactdu.aspx">Contact Us</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimited/2103/PrivacyStatement.html">Privacy</a>&nbsp;|&nbsp;<a href="http://www.ducks.org/jobs.aspx">Jobs</a> | <a href="http://www.ducks.org/faq.aspx">FAQ's</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimitedHome/2359/FinancialInformation.html">Financials</a></td>
+                  <td width="540" class="footer" style="padding-right: 10px; height: 20px;" valign="middle" align="right"><a href="http://www.ducks.org/contactdu.aspx">Contact Us</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimited/2103/PrivacyStatement.html">Privacy</a>&nbsp;|&nbsp;<a href="http://www.ducks.org/jobs.aspx">Jobs</a> | <a href="http://www.ducks.org/faq.aspx">FAQ's</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimitedHome/2359/FinancialInformation.html">Financials</a></td>
                 </tr>
               </table>
             </td>

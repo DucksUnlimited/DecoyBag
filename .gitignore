@@ -251,3 +251,5 @@ paket-files/
 .idea/
 *.sln.iml
 /applications/Catalog/Images
+/applications/Catalog/Doc/Descriptions
+/applications/Catalog/Catalog.zip

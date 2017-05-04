@@ -338,7 +338,7 @@ Partial Class CatEntry003
                 If sOrder.Trim = "" Then
                     Throw New Exception("Error in SaveOrder in CatEntry003")
                 End If
-                sOrder = Session("UpdateOrderNumber")
+                'sOrder = Session("UpdateOrderNumber")
                 parms.CurOrder = sOrder
 
                 'date = Mid$(date,7,2) & "/" & Mid$(date,5,2) & "/" & Mid$(date,1,4)

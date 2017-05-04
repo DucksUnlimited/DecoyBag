@@ -9,7 +9,7 @@
                 </td>
                 <td>&nbsp;</td>
                 <td align=left width=280px>
-                    <asp:TextBox ID="evid" runat="server" MaxLength=8 Width="65px" Text="MO00831B"></asp:TextBox>
+                    <asp:TextBox ID="evid" runat="server" MaxLength=8 Width="65px" Text="TN00321L"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -18,7 +18,7 @@
                 </td>
                 <td>&nbsp;</td>
                 <td align=left>
-                    <asp:TextBox ID="evdate" runat="server" MaxLength=8 Width="65px" Text="20150509"></asp:TextBox>
+                    <asp:TextBox ID="evdate" runat="server" MaxLength=8 Width="65px" Text="20170915"></asp:TextBox>
                     <asp:CustomValidator ID="CustomValidator1" runat="server"
                      ErrorMessage="Dah..  We need an event date!"
                      ControlToValidate="evdate"
@@ -33,7 +33,7 @@
                 </td>
                 <td>&nbsp;</td>
                 <td align=left>
-                    <asp:TextBox ID="usrid" runat="server" MaxLength=9 Width="70px" Text="000038192"></asp:TextBox>
+                    <asp:TextBox ID="usrid" runat="server" MaxLength=9 Width="70px" Text="002590116"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -42,7 +42,7 @@
                 </td>
                 <td>&nbsp;</td>
                 <td align=left>
-                    <asp:TextBox ID="rdid" runat="server" MaxLength=9 Width="70px" Text="000038192"></asp:TextBox>
+                    <asp:TextBox ID="rdid" runat="server" MaxLength=9 Width="70px" Text="001307464"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -60,7 +60,7 @@
                 </td>
                 <td>&nbsp;</td>
                 <td align=left>
-                    <asp:TextBox ID="coremail" runat="server" MaxLength=100 Width="750px" Text="kpreston@ducks.org"></asp:TextBox>
+                    <asp:TextBox ID="coremail" runat="server" MaxLength=100 Width="750px" Text="jjackson@ducks.org"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -69,7 +69,7 @@
                 </td>
                 <td>&nbsp;</td>
                 <td align=left>
-                    <asp:TextBox ID="rdnum" runat="server" MaxLength=3 Width="50px" Text="27"></asp:TextBox>
+                    <asp:TextBox ID="rdnum" runat="server" MaxLength=3 Width="50px" Text="39"></asp:TextBox>
                 </td>
             </tr>
         </table>

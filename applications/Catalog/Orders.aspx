@@ -5,12 +5,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<META name="GENERATOR" content="IBM Software Development Platform">
-<META http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta name="GENERATOR" content="IBM Software Development Platform" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
 
-<link rel="stylesheet" href="http://ww1.ducksystem.com/NATURAL//99723934.CSS" type="text/css"/>
-<link rel="stylesheet" href="http://ww1.ducksystem.com/NATURAL/99723933.CSS" type="text/css" media="print"/>
+<link rel="stylesheet" href="99723934.CSS" type="text/css"/>
+<link rel="stylesheet" href="99723933.CSS" type="text/css" media="print"/>
 <style type="text/css">
     #TIMESTAMPP                    
     {
@@ -25,26 +25,26 @@
 </style>
 <title>Browes Orders</title>
 </head>
-<body leftmargin="0" topmargin="0">
+<body >
   <div id="CONTAINER">
 
     <div id="HEADER">
-      <div id="DUCKHEAD"><a><img src="http://ww1.ducksystem.com/NATURAL/99725393.JPG" border=0></a></div>
-      <div class='SCREEN-HIDE' style="position:relative; float: left;"><img src="http://ww1.ducksystem.com/NATURAL/99875006.GIF" border=0 width=45 height=30></div>
+      <div id="DUCKHEAD"><a><img src="http://ww1.ducksystem.com/NATURAL/99725393.JPG" border="0" alt="" /></a></div>
+      <div class="SCREEN-HIDE" style="position:relative; float: left;"><img src="http://ww1.ducksystem.com/NATURAL/99875006.GIF" border="0" alt="" width="45" height="30" /></div>
       <div id="SYSTEM_INFO" align="right">
         <div id="TITLE" align="left">Order Inquiry</div>
-        <div id="TIMESTAMPP" class=SCREEN-HIDE>
+        <div id="TIMESTAMPP" class="SCREEN-HIDE">
             <asp:Label ID="DatePH" runat="server"></asp:Label>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="TimePH" runat="server"></asp:Label>
         </div>  <!--- ending timestamp div -->
-        <div id="TIMESTAMPS" class=PRINTER-HIDE>
+        <div id="TIMESTAMPS" class="PRINTER-HIDE">
             <asp:Label ID="DateSH" runat="server"></asp:Label>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="TimeSH" runat="server"></asp:Label>
         </div>  <!--- ending timestamp div -->
         <div class="SPACER"></div>
-        <div align=center style="width:100%; float:left; font-size:12pt;">
+        <div align="center" style="width:100%; float:left; font-size:12pt;">
             <asp:Label ID="OrderStatus" runat="server" ></asp:Label>
         </div>
       </div>
@@ -121,7 +121,7 @@
                     Ship Date</td>
               <td style="width: 154px" align="left">
                     <asp:Label ID="lblhtdlby" runat="server" ForeColor="DimGray"></asp:Label></td>
-              <td colspan="4" style="width: 157px" align="left">
+              <td colspan="4" style="width: 157px" align="left"></td>
             </tr>
           </table>
           <table style="width: 900px">
@@ -136,10 +136,10 @@
           </table>
           <br />
           
-            <asp:Table ID="UPSTable" runat="server" Enabled=true>
-                <asp:TableHeaderRow ID="thr" runat=server>
-                    <asp:TableHeaderCell ID="thc" runat=server Text="UPS Tracking Number"></asp:TableHeaderCell>
-                    <asp:TableHeaderCell ID="thc2" runat=server Text="Gun Serial Number"></asp:TableHeaderCell>
+            <asp:Table ID="UPSTable" runat="server" Enabled="true">
+                <asp:TableHeaderRow ID="thr" runat="server">
+                    <asp:TableHeaderCell ID="thc" runat="server" Text="UPS Tracking Number"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell ID="thc2" runat="server" Text="Gun Serial Number"></asp:TableHeaderCell>
                 </asp:TableHeaderRow>
             </asp:Table>
           
@@ -173,7 +173,7 @@
                 <asp:BoundField DataField="htldsc" HeaderText="Description" >
                     <HeaderStyle CssClass="FLOAT" />
                 </asp:BoundField>
-                <asp:BoundField DataField="htlser" HeaderText="Gun Serial Number" Visible=true >
+                <asp:BoundField DataField="htlser" HeaderText="Gun Serial Number" Visible="true" >
                     <ItemStyle HorizontalAlign="Center" />
                     <HeaderStyle CssClass="FLOAT" />
                 </asp:BoundField>
@@ -181,23 +181,23 @@
             <HeaderStyle BackColor="LightSkyBlue" HorizontalAlign="Center" VerticalAlign="Bottom" CssClass="display: table-header-group" />
             <AlternatingRowStyle CssClass="ALT-BROWSE-2" />
             <RowStyle CssClass="ALT-BROWSE-1" />
-            </asp:GridView>
+            </asp:Gridview>
 
           </div>
         </form>    
       </div>
     </center>
-    <table width="900" cellSpacing="0" cellPadding="0" border="0">
+    <table width="900" cellspacing="0" cellpadding="0" border="0">
       <tr>
         <td height="2px"></td>
       </tr>
       <tr>
         <td width="10">
-          <table style="width: 750px" cellSpacing=0 cellPadding=0 border=0>
+          <table style="width: 750px" cellspacing="0" cellpadding="0" border="0">
             <tr>
               <td width="10" class="footer" style="height: 20px"></td>
-              <td width="200" class="footer" vAlign="middle" align="left" style="height: 20px"><span style="COLOR: #666666">&#169;Ducks Unlimited, Inc.</span></td>
-              <td width="540" class="footer" style="padding-right: 10px; height: 20px;" vAlign="middle" align="right"><a href="http://www.ducks.org/contactdu.aspx">Contact Us</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimited/2103/PrivacyStatement.html">Privacy</a>&nbsp;|&nbsp;<a href="http://www.ducks.org/jobs.aspx">Jobs</a> | <a href="http://www.ducks.org/faq.aspx">FAQ's</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimitedHome/2359/FinancialInformation.html">Financials</a></td>
+              <td width="200" class="footer" valign="middle" align="left" style="height: 20px"><span style="COLOR: #666666">&#169;Ducks Unlimited, Inc.</span></td>
+              <td width="540" class="footer" style="padding-right: 10px; height: 20px;" valign="middle" align="right"><a href="http://www.ducks.org/contactdu.aspx">Contact Us</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimited/2103/PrivacyStatement.html">Privacy</a>&nbsp;|&nbsp;<a href="http://www.ducks.org/jobs.aspx">Jobs</a> | <a href="http://www.ducks.org/faq.aspx">FAQ's</a>&nbsp;| <a href="http://www.ducks.org/About_DU/AboutDucksUnlimitedHome/2359/FinancialInformation.html">Financials</a></td>
             </tr>
           </table>
         </td>

@@ -1,14 +1,11 @@
-Imports Microsoft.VisualBasic
 Imports IBM.Data.DB2.iSeries
-Imports System.data
-Imports System.Web.HttpContext
 Imports System.Configuration
 
 Public Class iSeriesCompMag
 
     Shared conn As New iDB2Connection(ConfigurationManager.AppSettings("iSeries"))
-
     Shared mvLastError As String = ""
+
     Shared Function GetMagName(ByVal sFName As String, ByVal sTName As String) As DataTable
 
         '---------------------------------------------------------
@@ -21,6 +18,10 @@ Public Class iSeriesCompMag
 
         Dim query As String = String.Empty
         Dim dt As New DataTable
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
@@ -62,6 +63,10 @@ Public Class iSeriesCompMag
         Dim query As String = String.Empty
         Dim dt As New DataTable
 
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
         'Reset last error
         mvLastError = ""
 
@@ -99,6 +104,10 @@ Public Class iSeriesCompMag
 
         Dim query As String = String.Empty
         Dim dt As New DataTable
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
@@ -138,6 +147,10 @@ Public Class iSeriesCompMag
         Dim query As String = String.Empty
         Dim dt As New DataTable
 
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
         'Reset last error
         mvLastError = ""
 
@@ -175,6 +188,10 @@ Public Class iSeriesCompMag
 
         Dim query As String = String.Empty
         Dim dt As New DataTable
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
@@ -214,6 +231,10 @@ Public Class iSeriesCompMag
 
         Dim query As String = String.Empty
         Dim dt As New DataTable
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
@@ -255,6 +276,9 @@ Public Class iSeriesCompMag
         Dim query As String = String.Empty
         Dim dt As New DataTable
 
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
@@ -304,8 +328,11 @@ Public Class iSeriesCompMag
         '         14.) Name sort
         '---------------------------------------------------------
 
-        'Reset last error
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
+        'Reset last error
         mvLastError = ""
 
         Try
@@ -361,8 +388,11 @@ Public Class iSeriesCompMag
         '         14.) Name sort
         '---------------------------------------------------------
 
-        'Reset last error
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
+        'Reset last error
         mvLastError = ""
 
         Try
@@ -382,12 +412,8 @@ Public Class iSeriesCompMag
             "CPSORT='" & sSort.Replace("'", "''") & "'" & _
             " WHERE CPSEQ=" & sSeq, conn)
 
-
-
             'Execute the record update
-
             cmd.ExecuteNonQuery()
-
 
             'Update succeeded
             Return True
@@ -406,8 +432,11 @@ Public Class iSeriesCompMag
         'Parms . : 1.) Sequence number 
         '---------------------------------------------------------
 
-        'Reset last error
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
+        'Reset last error
         mvLastError = ""
 
         Try
@@ -437,6 +466,10 @@ Public Class iSeriesCompMag
 
         Dim query As String = String.Empty
         Dim dt As New DataTable
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
@@ -473,6 +506,10 @@ Public Class iSeriesCompMag
 
         Dim query As String = String.Empty
         Dim dt As New DataTable
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
@@ -511,6 +548,10 @@ Public Class iSeriesCompMag
         Dim query As String = String.Empty
         Dim dt As New DataTable
 
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
         'Reset last error
         mvLastError = ""
 
@@ -540,6 +581,10 @@ Public Class iSeriesCompMag
         'Desc. . : Call program CompMagCL1
         'Parms . : 1.)
         '---------------------------------------------------------
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
 
         'Reset last error
         mvLastError = ""
