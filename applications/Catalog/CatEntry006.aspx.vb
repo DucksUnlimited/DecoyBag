@@ -437,7 +437,16 @@ Partial Class CatEntry006
 
     Protected Sub Exit_Pgm(ByVal Src As Object, ByVal Args As EventArgs)
 
-        Response.Redirect(Session("UrlStart"))
+        DT().Clear()
+        DTOrder().Clear()
+        DTCats().Clear()
+        DT().Dispose()
+        DTOrder().Dispose()
+        DTCats().Dispose()
+        Dim urlStart As String = Session("UrlStart")
+        Session.Abandon()
+        Response.Redirect(urlStart)
+        'Response.Redirect(Session("UrlStart"))
 
     End Sub
 

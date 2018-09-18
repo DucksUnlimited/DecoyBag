@@ -59,7 +59,11 @@ Partial Class Orders
                                         'c.Controls.Add(New LiteralControl(upshref.ToString()))
                                         Dim upshref As New System.Web.UI.WebControls.HyperLink
                                         upshref.Text = (drw(i)("utrack").ToString())
-                                        upshref.NavigateUrl = "http://wwwapps.ups.com/WebTracking/OnlineTool?InquiryNumber1=" + UPSTrack.Trim
+                                        If UPSTrack.Substring(0, 2) = "1Z" Then
+                                            upshref.NavigateUrl = "http://wwwapps.ups.com/WebTracking/OnlineTool?InquiryNumber1=" + UPSTrack.Trim
+										Else
+                                            upshref.NavigateUrl = "https://www.fedex.com/apps/fedextrack/?tracknumbers=" + UPSTrack.Trim
+										End If
                                         upshref.Target = "_blank"
                                         c.Controls.Add(upshref)
                                         r.Cells.Add(c)

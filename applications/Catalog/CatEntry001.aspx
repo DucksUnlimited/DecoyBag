@@ -100,7 +100,7 @@
                                 <ItemStyle HorizontalAlign="Right" Font-Bold="False" Font-Italic="False" Font-Overline="False" BorderColor="Black" BorderWidth="1px"
                                     Font-Strikeout="False" Font-Underline="False" Wrap="False" Font-Size="12pt" />
                             </telerik:GridBoundColumn>
-                            <telerik:GridBoundColumn DataField="unitcost" HeaderText="Cost" DataFormatString="{0:#,##0.00}"  >
+                            <telerik:GridBoundColumn DataField="unitcost" HeaderText="Cost" DataFormatString="{0:#,##0.00}" ReadOnly="true"  >
                                 <ItemStyle HorizontalAlign="Right" Font-Bold="False" Font-Italic="False" Font-Overline="False" BorderColor="Black" BorderWidth="1px"
                                         Font-Strikeout="False" Font-Underline="False" Wrap="False" Font-Size="12pt" />
                             </telerik:GridBoundColumn>
@@ -111,11 +111,11 @@
                                 <ItemStyle Font-Bold="False" Font-Italic="False" Font-Overline="False" Font-Strikeout="False" BorderColor="Black" BorderWidth="1px"
                                     Font-Underline="False" Wrap="False" HorizontalAlign="center" Font-Size="12pt" />
                             </telerik:GridTemplateColumn>
-                            <telerik:GridBoundColumn DataField="ccnumb" HeaderText="Item" >
+                            <telerik:GridBoundColumn DataField="ccnumb" HeaderText="Item" ReadOnly="true" >
                                 <ItemStyle Font-Bold="False" Font-Italic="False" Font-Overline="False" Font-Strikeout="False" BorderColor="Black" BorderWidth="1px"
                                     Font-Underline="False" Wrap="False" HorizontalAlign="center" Font-Size="12pt" />
                             </telerik:GridBoundColumn>
-                            <telerik:GridBoundColumn DataField="itmdsc" HeaderText="Item Description" >
+                            <telerik:GridBoundColumn DataField="itmdsc" HeaderText="Item Description" ReadOnly="true" >
                                 <ItemStyle Font-Bold="False" Font-Italic="False" Font-Overline="False" Font-Strikeout="False" BorderColor="Black" BorderWidth="1px"
                                     Font-Underline="False" Wrap="False" HorizontalAlign="left" Font-Size="12pt" />
                             </telerik:GridBoundColumn>

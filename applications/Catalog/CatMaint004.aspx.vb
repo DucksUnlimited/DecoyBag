@@ -126,7 +126,7 @@ Partial Class CatMaint004
                 DescUpload.SaveAs(Path.Combine(targetFolder, fileName))
             End If
             If rtnbool = True Then
-                Response.Redirect("CatMaint003.aspx")
+                Response.Redirect("CatMaint003.aspx", False)
             Else
                 LblError.Text = "Item Error"
             End If
@@ -139,7 +139,7 @@ Partial Class CatMaint004
 
         Try
 
-            Response.Redirect("CatMaint003.aspx")
+            Response.Redirect("CatMaint003.aspx", False)
 
         Catch ex As Exception
 

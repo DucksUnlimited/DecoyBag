@@ -17,13 +17,19 @@ Partial Class CatEntry005
 
     Protected Sub btnMessage_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnExit.Click
 
-        Response.Redirect(Session("UrlStart"))
+        Dim urlStart As String = Session("UrlStart")
+        Session.Abandon()
+        Response.Redirect(urlStart)
+        'Response.Redirect(Session("UrlStart"))
 
     End Sub
 
     Protected Sub btnExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnExit.Click
 
-        Response.Redirect(Session("UrlStart"))
+        Dim urlStart As String = Session("UrlStart")
+        Session.Abandon()
+        Response.Redirect(urlStart)
+        'Response.Redirect(Session("UrlStart"))
 
     End Sub
 End Class

@@ -268,8 +268,9 @@ Partial Class CatEntry002
         DT().Dispose()
         DTOrder().Dispose()
         DTCats().Dispose()
-
-        Response.Redirect(Session("UrlStart"))
+        Dim urlStart As String = Session("UrlStart")
+        Session.Abandon()
+        Response.Redirect(urlStart)
 
     End Sub
 End Class

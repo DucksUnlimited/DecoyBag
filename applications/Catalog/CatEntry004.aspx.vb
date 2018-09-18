@@ -125,13 +125,19 @@ Partial Class CatEntry004
         Try
 
             'Remove tables
+            DT.Clear()
+            DTOrder.Clear()
+            DTCats.Clear()
             DT().Dispose()
             DTOrder().Dispose()
             DTCats().Dispose()
+            Dim urlStart As String = Session("UrlStart")
+            Session.Abandon()
+            Response.Redirect(urlStart)
 
 
             'Redirect to location that started the catalog program CatEntry001.aspx  
-            Response.Redirect(Session("UrlStart"))
+            'Response.Redirect(Session("UrlStart"))
 
 
         Catch ex As Exception

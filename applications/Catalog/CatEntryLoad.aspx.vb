@@ -52,7 +52,10 @@ Partial Class CatEntryLoad
 
     Protected Sub btnCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancel.Click
 
-        Response.Redirect(Session("UrlStart"))
+        Dim urlStart As String = Session("UrlStart")
+        Session.Abandon()
+        Response.Redirect(urlStart)
+        'Response.Redirect(Session("UrlStart"))
 
     End Sub
 End Class

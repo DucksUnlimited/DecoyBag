@@ -138,7 +138,7 @@
           
             <asp:Table ID="UPSTable" runat="server" Enabled="true">
                 <asp:TableHeaderRow ID="thr" runat="server">
-                    <asp:TableHeaderCell ID="thc" runat="server" Text="UPS Tracking Number"></asp:TableHeaderCell>
+                    <asp:TableHeaderCell ID="thc" runat="server" Text="Tracking Number"></asp:TableHeaderCell>
                     <asp:TableHeaderCell ID="thc2" runat="server" Text="Gun Serial Number"></asp:TableHeaderCell>
                 </asp:TableHeaderRow>
             </asp:Table>

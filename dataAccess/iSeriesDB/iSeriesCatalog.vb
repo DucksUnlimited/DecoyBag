@@ -686,6 +686,58 @@ Public Class iSeriesCatalog
 
     End Function
 
+    Shared Function GetEvItems(ByVal orderPO As String, ByVal orderDate As String) As DataTable
+        '---------------------------------------------------------
+        'Function: GetEvItems
+        'Desc. . : Get all items that have been ordered for an event
+        'Parms . : 1.) Event Key
+        '               A). State
+        '               B). Chapter
+        '               C). Event Code (Number)
+        '               D). Event Type
+        '          2.) Event Date (YYYYMMDD)
+        ' 
+        'Returns .: Data Table of all the items
+        '---------------------------------------------------------
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
+        Dim query As String = String.Empty
+        Dim dt As New DataTable
+
+        'Reset last error
+
+        mvLastError = ""
+
+        Try
+            query = "Select P.HTNUM, TRIM(P.HTCNO) as BillTo, P.HTRCFL, P.HTCODT, C.HTLLIN As LINENBR, C.HTLPNM As ITEMNUM, C.HTLNST As LINETYPE, "
+            query += "C.HTLQSH As QTYSHIPPED, C.HTLUCT As UNITCOST, C.HTLCEX As COSTEXT, "
+            query += "C.CS33EC As EXTSALESCOST, C.HTLDSC As DESCRIPTION, "
+            query += "C.HTQOR As QTYORDERED, D.APPROV "
+            query += "FROM CHTMPO P "
+            query += "LEFT OUTER JOIN CHTLIN C On (C.HTNUM = P.HTNUM) "
+            query += "LEFT OUTER JOIN CATFFL D On (D.FFLORD = P.HTNUM) "
+            query += "WHERE (P.HTCPO = '" + orderPO + "' And P.HTCODT = " + orderDate + ") And (P.HTRCFL = 'S' OR P.HTRCFL = 'I' OR P.HTRCFL = 'B' "
+            query += "OR P.HTRCFL = 'P' OR P.HTRCFL = 'H' OR P.HTRCFL = 'R' OR (P.HTRCFL = 'Q' AND D.APPROV = 'Y'))"
+            query += "ORDER BY C.HTLPNM, P.HTNUM "
+
+            Dim cmdD As New iDB2Command(query, conn)
+
+            Dim da As iDB2DataAdapter = New iDB2DataAdapter(cmdD)
+            da.Fill(dt)
+
+            Return dt
+
+        Catch ex As Exception
+            mvLastError = ex.Message
+            Return Nothing
+
+        End Try
+
+    End Function
+
     Shared Function InsertCat(ByVal sCatName As String, ByVal sCatEff As String, ByVal sCatExp As String, ByVal sCatType As String) As Boolean
         '---------------------------------------------------------
         'Function: Insert Category Header

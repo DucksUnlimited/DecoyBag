@@ -311,12 +311,12 @@ function TranslateWord(field)
             <td align="center" colspan="4" style="height: 148px;">
                 <asp:Label ID="Label4" runat="server" BackColor="#D6D2E1" Font-Size="18px" ForeColor="Red" 
                     Text="No Records Found" Visible="False"></asp:Label>
-                <asp:GridView ID="GridView1" ForeColor="Black" BackColor="#D6D2E1" runat="server" 
-                    AutoGenerateSelectButton="True" AutoGenerateColumns="False" Width="80%" >
+                <asp:GridView ID="GridView1" ForeColor="Black" BackColor="#D6D2E1" runat="server" AllowSorting="true" 
+                    OnSorting="gvCompMag_Sorting" AutoGenerateSelectButton="True" AutoGenerateColumns="False" Width="80%" >
                     <Columns>
-                        <asp:BoundField DataField="cpseq" HeaderText="Sequence" >
+                        <asp:BoundField DataField="cpseq" HeaderText="Sequence" SortExpression="Seq" >
                         </asp:BoundField>
-                        <asp:BoundField DataField="cpsort" HeaderText="Name Sort" >
+                        <asp:BoundField DataField="cpsort" HeaderText="Name Sort" SortExpression="Name" >
                             <ItemStyle Wrap="False" />
                         </asp:BoundField>
                         <asp:BoundField DataField="cplin1" HeaderText="Line One" >

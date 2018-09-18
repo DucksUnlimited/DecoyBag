@@ -83,9 +83,9 @@ Public Class GeneralRoutines
         Next
         Dim ar1 As Array = ar
 
-        ar1.Sort(ar1, New ListItemComparer)
-        dd.Items.Clear()
-        dd.Items.AddRange(ar1)
+        'ar1.Sort(ar1, New ListItemComparer)
+        'dd.Items.Clear()
+        'dd.Items.AddRange(ar1)
     End Sub
 
     Public Function sortTable(ByVal table As DataTable, ByVal colname As String) As DataTable

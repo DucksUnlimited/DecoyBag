@@ -89,6 +89,9 @@ Partial Class CatMaint001
 
         Try
 
+            Dim urlStart As String = Session("UrlStart")
+            Session.Abandon()
+            Response.Redirect(urlStart)
             Response.Redirect(Session("UrlStart"))
 
         Catch ex As Exception

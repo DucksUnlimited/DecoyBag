@@ -145,7 +145,7 @@ padding: 0px 3px 0px 3px;
 
 #BUL_BOARD
 {
-margin: left;
+margin:  left;
 width: 735px;
 *width: 760px;  
 padding-left: 25px;
@@ -581,7 +581,7 @@ color: #003366;
 {
 background:url(/NATURAL/99802588.GIF) no-repeat right top;
 display: block;
-padding: 5px 15px 4px 5 px;
+padding: 5px 15px 4px 5px;
 text-decoration: none;
 color: #000;
 
@@ -769,7 +769,7 @@ border-right: solid 1px #ccc;
 
 #TESTCLASS
 {
-test;
+
 }
 
 #TIMESTAMP
@@ -873,6 +873,13 @@ text-align: left;
 
 }
 
+.ALT-BROWSE-3
+{
+background-color: #C5C1A9;
+text-align: left;
+
+}
+
 .ANCHORITEM
 {
 width: 68px;
@@ -916,6 +923,20 @@ font-weight: bold;
 border:1px solid black;
 width:700px; 
 
+}
+
+.BUTTON
+{
+font-size: 14px;
+padding: 4px 17px;
+color: #5A473B;
+font-weight: bold;
+box-shadow: 0 2px 1.5px 0 #7A7A7A;
+background-color: #D4CEC2;
+background-image: -moz-linear-gradient(center bottom , #A79F93 0%, #D3CDC1 71%);
+border-top: 1px solid #FFFFFF;
+border-bottom-right-radius: 15px;
+border-top-left-radius: 15px;
 }
 
 .B_EMRG
@@ -976,9 +997,24 @@ border-left: 3px solid black;
 
 }
 
+.CELL-LEFTTOPBORDER
+{
+border-left: 3px solid black;
+border-top: 3px solid black;
+}
+
 .CELL-RIGHTBORDER
 {
 border-right: 3px solid black;
+}
+
+.CELL_BOTTOMBORDER
+{
+border-bottom:2px solid black;
+}
+
+.CELL_BTMBD2
+{
 }
 
 .CELL_TOPBORDER
@@ -1201,6 +1237,12 @@ margin:2px;
 .FONT-1
 {
 font-size: 80%;
+}
+
+.FONT-12
+{
+font-size: 200%;
+font-weight: Bold;
 }
 
 .FONT-2

@@ -506,11 +506,15 @@ Partial Class CatEntry003
 
     Protected Sub btnExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnExit.Click
 
+        DT.Clear()
+        DTOrder.Clear()
+        DTCats.Clear()
         DT().Dispose()
         DTOrder().Dispose()
         DTCats().Dispose()
-
-        Response.Redirect(Session("UrlStart"))
+        Dim urlStart As String = Session("UrlStart")
+        Session.Abandon()
+        Response.Redirect(urlStart)
 
     End Sub
 

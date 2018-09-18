@@ -11,7 +11,7 @@
     <AssemblyName>iSeriesDB</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
@@ -197,6 +197,10 @@
     <None Include="Scripts\version.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\iSeriesDB.dll" />
+    <Content Include="bin\Debug\iSeriesDB.pdb" />
+    <Content Include="bin\Release\iSeriesDB.dll" />
+    <Content Include="bin\Release\iSeriesDB.pdb" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
