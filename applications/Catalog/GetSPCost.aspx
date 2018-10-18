@@ -80,6 +80,13 @@
             <center>
             <div id="APPLICATION">
                 <div id="FLOAT">
+                    <div style="width:50%;">
+                        <br />
+                        <br />
+                        <asp:Button ID="btnExport" runat="server" Font-Size="14pt" Text="Create spreadsheet" />
+                        <br />
+                        <br />
+                    </div>
                     <asp:Gridview ID="OrdLineView" runat="server" AutoGenerateColumns="False" CellSpacing="1" GridLines="None"
                         ShowFooter="true" OnRowDataBound="OrdLineView_RowDataBound">
                       <Columns>
@@ -95,16 +102,12 @@
                             <ItemStyle HorizontalAlign="left" CssClass="FONT-4" Font-Size="12pt" />
                             <HeaderStyle CssClass="FLOAT" Font-Size="14pt" />
                         </asp:BoundField>
-                          <asp:TemplateField>
+                          <asp:TemplateField HeaderText="Order #" HeaderStyle-CssClass="FONT-4" headerstyle-Font-Size="14pt">
                               <ItemTemplate>
                                   <asp:HyperLink ID="ordlink" runat="server" CssClass="FONT-4" Font-Size="12pt" Text='<%# Eval("htnum") %>'>
                                   </asp:HyperLink>
                               </ItemTemplate>
                           </asp:TemplateField>
-<%--                        <asp:BoundField DataField="htnum" HeaderText="Order #" >
-                            <ItemStyle HorizontalAlign="Center" CssClass="FONT-4" Font-Size="12pt" />
-                            <HeaderStyle CssClass="FLOAT" Font-Size="14pt" />
-                        </asp:BoundField>--%>
                         <asp:BoundField DataField="unitcost" HeaderText="Item Cost" >
                             <ItemStyle HorizontalAlign="right" CssClass="FONT-4" Font-Size="12pt" />
                             <HeaderStyle CssClass="FLOAT" Font-Size="14pt" />
