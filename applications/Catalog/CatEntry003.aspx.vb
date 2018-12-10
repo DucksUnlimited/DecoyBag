@@ -303,6 +303,7 @@ Partial Class CatEntry003
                 Session("LBLcshpz2") = LBLcshpz2.Text.Trim()
                 'eMail & Comments
                 Session("eMailAddr") = emailaddr.Text
+                comments.Text = comments.Text.Replace("""", " ")
                 Session("Comments") = comments.Text
                 'ffl information
                 Session("FFLOrganization") = fflorg.Text.ToUpper
