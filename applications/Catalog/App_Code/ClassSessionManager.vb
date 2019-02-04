@@ -11,6 +11,7 @@ Public Class ClassSessionManager
     Dim mvUsrLName As String
     Dim mvRDID As String
     Dim mvRDNum As String
+    Dim mvRDLoc As String
     Dim mvRdOnly As Boolean
     Dim mvRDName As String
     Dim mvRDEMail As String
@@ -169,6 +170,23 @@ Public Class ClassSessionManager
                 mvRDID = ""
             Else
                 mvRDID = value
+            End If
+        End Set
+    End Property
+
+    Public Property RDLoc() As String
+        Get
+            If mvRDLoc Is Nothing Then
+                mvRDLoc = ""
+            End If
+
+            Return mvRDLoc
+        End Get
+        Set(ByVal value As String)
+            If value Is Nothing Then
+                mvRDLoc = ""
+            Else
+                mvRDLoc = value
             End If
         End Set
     End Property
@@ -337,6 +355,8 @@ Public Class ClassSessionManager
             RDNUM = request.QueryString("rdnum")
             RDName = request.QueryString("rdnm")
             RDEMail = request.QueryString("rdemail")
+            RDLoc = request.QueryString("rdloc")
+            'RDLoc = "101119"
             CorName = request.QueryString("cornm")
             CorEMail = request.QueryString("coremail")
             UserID = request.QueryString("usrid")

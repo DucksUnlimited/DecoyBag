@@ -113,13 +113,18 @@ Partial Class CatEntry006
 
                 objGen.InitializeSessionVairables()
 
-                If Not BPostBack Then
-                    Dim urlStart As String = Request.UrlReferrer.AbsoluteUri
-                    Session("UrlStart") = urlStart
-                End If
-
                 'Parse query into parameters
                 parms.parseQueryString(Request)
+
+                If Not BPostBack Then
+                    Dim urlStart As String
+                    If parms.RDLoc = Nothing Or parms.RDLoc = "" Then
+                        urlStart = "http://ww1.ducksystem.com/phpbin/www.php"
+                    Else
+                        urlStart = "http://ww1.ducksystem.com/phpbin/www.php?&se=9935228&tp=SL&pg=SYW232VN&ab=1&p1=1         9969544&p2=9983351   9981371&p3=9983174   5&p5=          " & parms.RDLoc & "&p9=F&p10=          Y&ex=NO-SELECT"
+                    End If
+                    Session("UrlStart") = urlStart
+                End If
 
                 ' oiSeries = New ClassiSeriesDataAccess
 
