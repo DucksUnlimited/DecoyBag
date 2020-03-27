@@ -18,7 +18,7 @@ Partial Class ML001
 
         Dim ArrayFList As New ArrayList
         Dim myFSO As New Scripting.FileSystemObject
-        Dim f = myFSO.GetFolder("//S1032895/qifs/Labels")
+        Dim f = myFSO.GetFolder("//S1032895/qifs/labels")
         Dim i As Integer, fl
         UserId.Focus()
         Session("SystemTitle") = "Membership Labels/Mailing Reports"
@@ -78,7 +78,7 @@ Partial Class ML001
             End If
         Catch ex As Exception
             Response.Write(ex.Message)
-            MsgBox(ex.Message, MsgBoxStyle.Information)
+            'MsgBox(ex.Message, MsgBoxStyle.Information)
         End Try
     End Sub
 
