@@ -6,7 +6,7 @@ Imports System.IO
 Imports System.Drawing
 
 Partial Class GetSPCost
-    Inherits System.Web.UI.Page
+    Inherits System.Web.UI.Page 
 
     Dim evSource() As String = {"AT", "CR", "D ", "DL", "F ", "GB", "H ", "IV", "NO", "O ", "S ", "SB", "T ", "VC", "W ", "WP", "OA", "V "}
     Dim evType() As String = {"P", "C", "D", "L", "F", "T", "M", "I", "N", "O", "S", "E", "B", "V", "G", "W", "Z", "R"}
