@@ -1,10 +1,9 @@
-Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
+Imports SQLAccessDB.SQLAccess
 
 Partial Class CatMaint001
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    'Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 

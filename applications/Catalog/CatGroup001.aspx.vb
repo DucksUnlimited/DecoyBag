@@ -1,5 +1,5 @@
-Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
+Imports SQLAccessDB.SQLAccess
 
 
 Partial Class CatGroup001
@@ -7,7 +7,6 @@ Partial Class CatGroup001
 
     Public parms As New ClassSessionManager
     'Public oiSeries As New ClassiSeriesDataAccess
-
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Try
@@ -65,7 +64,7 @@ Partial Class CatGroup001
     End Sub
 
 
-    Protected Sub ButtonNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonNew.Click
+    Protected Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
         Try
 
             Session("sMODE") = "INSERT"
@@ -73,8 +72,7 @@ Partial Class CatGroup001
 
             Dim sGroup As String = ""
 
-            'get next group number on as/400 
-            sGroup = GetNextGroupCATR003()
+            sGroup = GetNextGroupNumber()
             If sGroup.Trim = "" Then
                 Throw New Exception("Invalid next group CatGroup001")
             End If

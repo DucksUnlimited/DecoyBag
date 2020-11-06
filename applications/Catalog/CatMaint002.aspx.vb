@@ -1,9 +1,9 @@
-Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
+Imports SQLAccessDB.SQLAccess
+
 Partial Class CatMaint002
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
-    ' Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -28,7 +28,7 @@ Partial Class CatMaint002
                     TxtCatName.Enabled = False
 
                 Else
-                    wkdate = DateTime.Now.ToString("yyyyMMdd")
+                    wkdate = Now.ToString("yyyyMMdd")
                     CatEffDate.SelectedDate = Mid$(wkdate, 5, 2) & "/" & Mid$(wkdate, 7, 2) & "/" & Mid$(wkdate, 1, 4)
                     wkdate = "99991231"
                     CatExpDate.SelectedDate = Mid$(wkdate, 5, 2) & "/" & Mid$(wkdate, 7, 2) & "/" & Mid$(wkdate, 1, 4)

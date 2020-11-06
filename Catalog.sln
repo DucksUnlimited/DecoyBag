@@ -12,6 +12,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Catalog", "applications\Catalog\", "{CF4666AB-1F67-45B6-ABA8-02C7784D42F1}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		ProjectReferences = "{92c31883-2860-45e7-be05-32a5ded4ca28}|SQLAccessDB.dll;{ff8aaee2-97c1-4694-93b0-b5f0edbb6ac8}|D365AccessDB.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Catalog"
 		Debug.AspNetCompiler.PhysicalPath = "applications\Catalog\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Catalog\"
@@ -43,6 +44,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9410EB
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SQLAccessDB", "SQLAccessDB\SQLAccessDB.vbproj", "{92C31883-2860-45E7-BE05-32A5DED4CA28}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "D365AccessDB", "dataAccess\D365AccessDB\D365AccessDB.vbproj", "{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +99,30 @@ Global
 		{E7B44F5B-0591-4F5E-926B-7C19B2432A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7B44F5B-0591-4F5E-926B-7C19B2432A7B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E7B44F5B-0591-4F5E-926B-7C19B2432A7B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Debug|.NET.Build.0 = Debug|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Release|.NET.ActiveCfg = Release|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Release|.NET.Build.0 = Release|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{92C31883-2860-45E7-BE05-32A5DED4CA28}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Debug|.NET.Build.0 = Debug|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Release|.NET.ActiveCfg = Release|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Release|.NET.Build.0 = Release|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +132,8 @@ Global
 		{1D3050AA-5D1E-45FA-837D-B47B9319FCE8} = {75175459-36F3-4C88-993C-175AA1DD10F3}
 		{2EC2933D-2382-4B9F-96CD-F491247C215C} = {75175459-36F3-4C88-993C-175AA1DD10F3}
 		{E7B44F5B-0591-4F5E-926B-7C19B2432A7B} = {823AEB97-DF7B-43A9-BFE1-106A440A8CBD}
+		{92C31883-2860-45E7-BE05-32A5DED4CA28} = {75175459-36F3-4C88-993C-175AA1DD10F3}
+		{FF8AAEE2-97C1-4694-93B0-B5F0EDBB6AC8} = {75175459-36F3-4C88-993C-175AA1DD10F3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B9F230BE-B839-498A-AFB2-72253472E6FE}

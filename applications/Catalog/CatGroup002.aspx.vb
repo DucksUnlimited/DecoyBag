@@ -1,15 +1,16 @@
-Imports iSeriesDB.iSeriesCatalog
+'Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
+Imports SQLAccessDB.SQLAccess
 
 Partial Class CatGroup002
     Inherits System.Web.UI.Page
+
     Public parms As New ClassSessionManager
     'Public oiSeries As New ClassiSeriesDataAccess
 
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         Try
-
 
             'Get group record if LoadREc parm passed
             If Session("sLOADREC") = "1" Then
@@ -44,8 +45,6 @@ Partial Class CatGroup002
                 If Session("sMode") = "INSERT" Then
                     TxtGroup.Text = Session("sGROUPNUM")
                 End If
-
-
 
             End If
 

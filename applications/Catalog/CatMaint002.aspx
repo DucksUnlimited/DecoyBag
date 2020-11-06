@@ -2,24 +2,24 @@
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-   <table style="width: 40%; " align=center>
+   <table style="width: 40%; " align="center">
    <tr>
-   <td align=center colspan=2 style="font-size:8pt;"></td>
+   <td align="center" colspan="2" style="font-size:8pt;"></td>
    </tr>
    <tr>
-   <td align=center>
+   <td align="center">
    <asp:Button ID="ButtonSave" runat="server" Text="Save/View Items" />
    </td>
-   <td align=center>
-   <asp:Button ID="ButtonCancel" runat="server" Text="Cancel" CausesValidation=false  />
+   <td align="center">
+   <asp:Button ID="ButtonCancel" runat="server" Text="Cancel" CausesValidation="false"  />
    </td>
    </tr>
    <tr>
-   <td align=left colspan=2 style="font-size:8pt;">
+   <td align="left" colspan="2" style="font-size:8pt;">
    <asp:Label ID="LblError" runat="server" ForeColor="Red" Text=""></asp:Label>&nbsp;</td>
    </tr>
    <tr>
-   <td align=right>
+   <td align="right">
    <asp:Label ID="Label1" runat="server" Text="Catalog Name"></asp:Label>
    </td>
    <td>
@@ -29,11 +29,12 @@
          ErrorMessage="Must enter Catalog Name"
          Display="dynamic"  
          ControlToValidate="TxtCatName"
-         SetFocusOnError=true>
+         SetFocusOnError="true">
    </asp:RequiredFieldValidator>
    </td>
+   </tr>
    <tr>
-   <td align=right>
+   <td align="right">
    <asp:Label ID="Label2" runat="server" Text="Effective Date"></asp:Label>
    </td>
    <td>
@@ -44,12 +45,12 @@
          ErrorMessage="Must enter effective date"
          Display="dynamic"  
          ControlToValidate="CatEffDate"
-         SetFocusOnError=true>
+         SetFocusOnError="true">
    </asp:RequiredFieldValidator>
    </td>
    </tr>
    <tr>
-   <td align=right>
+   <td align="right">
    <asp:Label ID="Label3" runat="server" Text="Expiration Date"></asp:Label>
    </td>
    <td>
@@ -60,12 +61,12 @@
          ErrorMessage="Must enter expire date"
          Display="dynamic"  
          ControlToValidate="CatExpDate"
-         SetFocusOnError=true>
+         SetFocusOnError="true">
    </asp:RequiredFieldValidator>
    </td>
    </tr>
    <tr>
-   <td align=right>
+   <td align="right">
    <asp:Label ID="Label4" runat="server" Text="Catalog Type"></asp:Label>
    </td>
    <td>
@@ -75,7 +76,7 @@
          ErrorMessage="Must enter catalog type"
          Display="dynamic"  
          ControlToValidate="TxtCatType"
-         SetFocusOnError=true>
+         SetFocusOnError="true">
    </asp:RequiredFieldValidator>
    </td>
    </tr>

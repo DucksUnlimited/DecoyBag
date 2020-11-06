@@ -1,6 +1,7 @@
-Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 Imports System.IO
+Imports SQLAccessDB.SQLAccess
+Imports D365AccessDB.D365Access
 
 Partial Class CatMaint003
     Inherits System.Web.UI.Page
@@ -41,6 +42,17 @@ Partial Class CatMaint003
 
                 LblCatName.Text = Session("sCCCON#")
                 Dim dtl As DataTable = GetCatItemList(LblCatName.Text, Session("sEXPIRED"))
+                Dim dti As DataTable = GetD365Items()
+                dtl.Columns.Add("itmdsc", GetType(String))
+                dtl.Columns.Add("avalqty", GetType(Int32))
+
+                For Each drl As DataRow In dtl.Rows
+                    Dim dri As DataRow() = dti.Select("ITEMNUMBER = '" + drl.Item("ccnumb") + "'")
+                    If dri.Length > 0
+                        drl.Item("itmdsc") = dri(0)(1)
+                        drl.Item("avalqty") = dri(0)(4)
+                    End If
+                Next
 
                 'Bind the Returned Data to the Data Grid for Display
 
@@ -54,6 +66,8 @@ Partial Class CatMaint003
             End If
 
         Catch ex As Exception
+
+            Throw ex
 
         End Try
 
@@ -212,6 +226,17 @@ Partial Class CatMaint003
         End If
 
         Dim dtl As DataTable = GetCatItemList(LblCatName.Text, Session("sEXPIRED"))
+        Dim dti As DataTable = GetD365Items()
+        dtl.Columns.Add("itmdsc", GetType(String))
+        dtl.Columns.Add("avalqty", GetType(Int32))
+
+        For Each drl As DataRow In dtl.Rows
+            Dim dri As DataRow() = dti.Select("ITEMNUMBER = '" + drl.Item("ccnumb") + "'")
+            If dri.Length > 0
+                drl.Item("itmdsc") = dri(0)(1)
+                drl.Item("avalqty") = dri(0)(4)
+            End If
+        Next
 
         'Bind the Returned Data to the Data Grid for Display
 
