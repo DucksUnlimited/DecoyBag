@@ -8,7 +8,8 @@ Partial Class CatMaint003
     Public parms As New ClassSessionManager
 
     Dim curdate As String = Format(Date.Today(), "yyyyMMdd")
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         'Run the SQL Query to get data
 
         Try
@@ -16,7 +17,6 @@ Partial Class CatMaint003
             parms = Session("oSessionManager")
 
             If Not Page.IsPostBack Then
-
 
                 If Session("UpdateOrd") Is Nothing Then
                     Session.Add("UpdateOrd", String.Empty)
@@ -38,7 +38,6 @@ Partial Class CatMaint003
                 Session("UpdateOrd") = "Catalog Maintenance"
                 Session("EventTitle") = " "
                 Session("PageTitle") = " "
-
 
                 LblCatName.Text = Session("sCCCON#")
                 Dim dtl As DataTable = GetCatItemList(LblCatName.Text, Session("sEXPIRED"))
@@ -73,11 +72,11 @@ Partial Class CatMaint003
 
     End Sub
 
-    Public Overloads Overrides Sub VerifyRenderingInServerForm(ByVal control As Control)
+    Public Overloads Overrides Sub VerifyRenderingInServerForm(control As Control)
 
     End Sub
 
-    Protected Sub ButtonNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonNew.Click
+    Protected Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
 
         Try
             Session("sMODE") = "INSERT"
@@ -88,7 +87,8 @@ Partial Class CatMaint003
 
         End Try
     End Sub
-    Protected Sub GridView1_ImageBind(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles GridView1.RowDataBound
+
+    Protected Sub GridView1_ImageBind(sender As Object, e As GridViewRowEventArgs) Handles GridView1.RowDataBound
 
         Try
 
@@ -129,7 +129,7 @@ Partial Class CatMaint003
         End Try
     End Sub
 
-    Protected Sub GridView1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridView1.SelectedIndexChanged
+    Protected Sub GridView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles GridView1.SelectedIndexChanged
 
         Try
 
@@ -146,8 +146,7 @@ Partial Class CatMaint003
         End Try
     End Sub
 
-
-    Protected Sub ButtonCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonCancel.Click
+    Protected Sub ButtonCancel_Click(sender As Object, e As EventArgs) Handles ButtonCancel.Click
 
         Try
 
@@ -160,7 +159,7 @@ Partial Class CatMaint003
 
     End Sub
 
-    Protected Sub Excel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Excel.Click
+    Protected Sub Excel_Click(sender As Object, e As EventArgs) Handles Excel.Click
 
         Dim defaultExcludedColumns As New ArrayList()
         Dim strStyle As String = "<style>.text { mso-number-format:mm\/dd\/yyyy; } </style>"
@@ -174,8 +173,8 @@ Partial Class CatMaint003
         Response.ContentType = "application/vnd.ms-excel"
         Response.Charset = ""
         EnableViewState = False
-        Dim oStringWriter As New System.IO.StringWriter()
-        Dim oHtmlTextWriter As New System.Web.UI.HtmlTextWriter(oStringWriter)
+        Dim oStringWriter As New StringWriter()
+        Dim oHtmlTextWriter As New HtmlTextWriter(oStringWriter)
         ClearControls(GridView1)
 
         'Exclude any columns that the header text matches any value in the drop array
@@ -191,11 +190,12 @@ Partial Class CatMaint003
         Response.Write(oStringWriter.ToString())
         Response.End()
     End Sub
-    Private Sub ClearControls(ByVal control As Control)
+
+    Private Sub ClearControls(control As Control)
         Dim i As Integer = control.Controls.Count - 1
         While i >= 0
             ClearControls(control.Controls(i))
-            System.Math.Max(System.Threading.Interlocked.Decrement(i), i + 1)
+            Math.Max(Threading.Interlocked.Decrement(i), i + 1)
         End While
         If Not (TypeOf control Is TableCell) Then
             If Not control.[GetType]().GetProperty("SelectedItem") Is Nothing Then
@@ -216,7 +216,7 @@ Partial Class CatMaint003
         Return
     End Sub
 
-    Protected Sub ButtonExpired_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonExpired.Click
+    Protected Sub ButtonExpired_Click(sender As Object, e As EventArgs) Handles ButtonExpired.Click
         If Session("sEXPIRED") = "0" Then
             Session("sEXPIRED") = "1"
             ButtonExpired.Text = "Show Current Items"
@@ -242,7 +242,6 @@ Partial Class CatMaint003
 
         GridView1.DataSource = dtl
         GridView1.DataBind()
-
 
     End Sub
 End Class

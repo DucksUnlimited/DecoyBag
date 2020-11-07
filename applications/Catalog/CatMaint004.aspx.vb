@@ -1,16 +1,13 @@
 
 Imports System.Data
 Imports System.IO
-Imports iSeriesDB.iSeriesCatalog
+Imports SQLAccessDB.SQLAccess
+Imports D365AccessDB.D365Access
 
 Partial Class CatMaint004
     Inherits System.Web.UI.Page
-    Public parms As New ClassSessionManager
-    'Public oiSeries As New ClassiSeriesDataAccess
 
-
-
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim rdonly As Boolean
         Dim eventType As String
         Dim toolDesc As String
@@ -95,7 +92,7 @@ Partial Class CatMaint004
         End Try
     End Sub
 
-    Protected Sub ButtonSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonSave.Click
+    Protected Sub ButtonSave_Click(sender As Object, e As EventArgs) Handles ButtonSave.Click
         Dim rtnbool As Boolean
         Dim itmUOM As String
 
@@ -135,7 +132,7 @@ Partial Class CatMaint004
         End Try
     End Sub
 
-    Protected Sub ButtonCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonCancel.Click
+    Protected Sub ButtonCancel_Click(sender As Object, e As EventArgs) Handles ButtonCancel.Click
 
         Try
 

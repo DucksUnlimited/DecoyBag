@@ -1,6 +1,4 @@
-﻿'Imports System
-Imports System.Configuration
-'Imports System.Data
+﻿Imports System.Configuration
 Imports System.Data.SqlClient
 
 
@@ -44,6 +42,42 @@ Public Class D365Access
             Return Nothing
         End Try
 
+    End Function
+
+    Shared Function GetItemUOM(ByVal itemnum As String) As String
+        '-------------------------------------------------------
+        'Desc. . . : Get the unit of measure for catalog item
+        '                 and verify item number is valid
+        '-------------------------------------------------------
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
+        Dim itemuom As String = String.Empty
+        Dim dr As SqlDataReader
+        Try
+
+            Dim query As String = String.Empty
+
+            'build select for item
+            query = "select UnitOM from DU_InventOnHand"
+            query += " where ITEMNUMBER = '" + itemnum + "'"
+
+            Dim sc As SqlCommand = New SqlCommand(query, conn)
+
+            dr = sc.ExecuteReader()
+
+            If dr.Read Then
+                'Item unit of measure
+                itemuom = dr("UnitOM")
+            End If
+
+            Return itemuom
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
     End Function
 
 End Class

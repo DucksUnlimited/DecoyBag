@@ -5,7 +5,7 @@ Partial Class CatMaint001
     Inherits System.Web.UI.Page
     Public parms As New ClassSessionManager
 
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         Try
             ' get session manager object
@@ -59,7 +59,7 @@ Partial Class CatMaint001
 
     End Sub
 
-    Protected Sub ButtonNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonNew.Click
+    Protected Sub ButtonNew_Click(sender As Object, e As EventArgs) Handles ButtonNew.Click
         Try
 
             Session("sMODE") = "INSERT"
@@ -71,7 +71,7 @@ Partial Class CatMaint001
         End Try
     End Sub
 
-    Protected Sub GridView1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridView1.SelectedIndexChanged
+    Protected Sub GridView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles GridView1.SelectedIndexChanged
 
         Try
             Session("sCCCON#") = GridView1.SelectedRow.Cells(1).Text
@@ -84,7 +84,8 @@ Partial Class CatMaint001
 
         End Try
     End Sub
-    Protected Sub ButtonCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonCancel.Click
+
+    Protected Sub ButtonCancel_Click(sender As Object, e As EventArgs) Handles ButtonCancel.Click
 
         Try
 

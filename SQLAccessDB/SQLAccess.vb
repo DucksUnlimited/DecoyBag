@@ -1,6 +1,4 @@
-﻿Imports System
-Imports System.Configuration
-Imports System.Data
+﻿Imports System.Configuration
 Imports System.Data.SqlClient
 
 Public Class SQLAccess
@@ -44,7 +42,7 @@ Public Class SQLAccess
 
     End Function
 
-    Shared Function GetCatItemList(ByVal sCCCON As String, ByVal sEXPIRED As String) As DataTable
+    Shared Function GetCatItemList(sCCCON As String, sEXPIRED As String) As DataTable
 
         '---------------------------------------------------------
         'Function: Get Catalog Item List
@@ -224,6 +222,62 @@ Public Class SQLAccess
         End Try
     End Function
 
+    Shared Function GetItem(sCCCON As String, sCCNUMB As String, sCCEFFL As String) As DataTable
+
+        '---------------------------------------------------------
+        'Function: Get Catalog Item 
+        'Desc. . : Get item as a DataReader.
+        'Parms . : 1.) Catalog name
+        '          2.) Item 
+        '          3.) Effective date
+        'Returns : Returns a data reader object.
+        '---------------------------------------------------------
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
+        Dim query As String = String.Empty
+        Dim dt As New DataTable
+
+        'Reset last error
+        mvLastError = ""
+
+        Try
+
+            query = "Select p.ccnumb, p.cceffl, p.ccexpl, p.ccpzon, p.ccruom, p.cceop, p.ccmqoh, p.cciseq,"
+            query += " c.catdesc, c.catgrp"
+            query += " from  cstcol p"
+            query += " left outer join  catgroup c on (c.catgrp = p.ccpzon)"
+            query += " where p.cccon# = @cccon# and p.ccctyp = @ccctyp and p.cccust = @cccust and p.ccitct = @ccitct and p.ccnumb = @ccnumb and p.cceffl = @cceffl"
+
+            Dim cmdD As New SqlCommand(query, conn)
+            cmdD.Parameters.Add("@cccon#", SqlDbType.varChar, 20)
+            cmdD.Parameters("@cccon#").Value = sCCCON
+            cmdD.Parameters.Add("@ccctyp", SqlDbType.varChar, 1)
+            cmdD.Parameters("@ccctyp").Value = "A"
+            cmdD.Parameters.Add("@cccust", SqlDbType.varChar, 10)
+            cmdD.Parameters("@cccust").Value = "          "
+            cmdD.Parameters.Add("@ccitct", SqlDbType.varChar, 1)
+            cmdD.Parameters("@ccitct").Value = "I"
+            cmdD.Parameters.Add("@ccnumb", SqlDbType.varChar, 20)
+            cmdD.Parameters("@ccnumb").Value = sCCNUMB
+            cmdD.Parameters.Add("@cceffl", SqlDbType.varChar, 8)
+            cmdD.Parameters("@cceffl").Value = sCCEFFL
+
+            Dim da As SqlDataAdapter = New SqlDataAdapter(cmdD)
+
+            da.Fill(dt)
+
+            Return dt
+
+        Catch ex As Exception
+            mvLastError = ex.Message
+            Return Nothing
+        End Try
+
+    End Function
+
     Shared Function GetNextGroupNumber() As String
         '---------------------------------------------------------
         'Function: GetNextGroupNumber
@@ -370,7 +424,130 @@ Public Class SQLAccess
 
     End Function
 
-    Shared Function UpdateCat(ByVal sCatName As String, ByVal sCatEff As String, ByVal sCatExp As String, ByVal sCatType As String) As Boolean
+    Shared Function InsertItem(sItem As String, sEffDate As String, sExpDate As String, sIncQty As String, sMaxQty As String, sArtLoc As String, sCatGroup As String, sCatName As String, sSeqNum As String, sItemUOM As String) As Boolean
+        '---------------------------------------------------------
+        'Desc. . : Insert detail record in CSTCOL and CSTCOP files using SQL
+        'Parms . : 1.) Item 
+        '          2.) Effective date
+        '          3.) Expiration date
+        '          4.) Incremental quantity
+        '          5.) Maximum Order quantity
+        '          6.) Art package location
+        '          7.) Catalog group
+        '          8.) Catalog name
+        '          9.) Sequence number
+        '         10.) Item unit of measure
+        '---------------------------------------------------------
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
+        'Reset last error
+
+        mvLastError = ""
+
+        Try
+
+            'Bail on parm validation
+
+            If sItem.Trim = "" Then
+                Throw New Exception("Must pass item number.")
+            End If
+
+            Dim cmd As New SqlCommand("insert into cstcol (ccctyp,cceffl,ccexpl,cccon#,ccitct,ccnumb,ccreta,ccexco,ccpzon,ccruom,cceop,ccmqoh,cciseq) values('@@ccctyp','@@cceffl','@@ccexpl', '@@cccon#', '@@ccitct', '@@ccnumb', '@@ccreta', '@@ccexco', '@@ccpzon', '@@ccruom', '@@cceop', '@@ccmqoh', '@@cciseq')", conn)
+            cmd.CommandText = cmd.CommandText.Replace("@@ccctyp", "A")
+            cmd.CommandText = cmd.CommandText.Replace("@@cceffl", sEffDate)
+            cmd.CommandText = cmd.CommandText.Replace("@@ccexpl", sExpDate)
+            cmd.CommandText = cmd.CommandText.Replace("@@cccon#", sCatName)
+            cmd.CommandText = cmd.CommandText.Replace("@@ccitct", "I")
+            cmd.CommandText = cmd.CommandText.Replace("@@ccnumb", sItem)
+            cmd.CommandText = cmd.CommandText.Replace("@@ccreta", "Y")
+            cmd.CommandText = cmd.CommandText.Replace("@@ccexco", "Y")
+            cmd.CommandText = cmd.CommandText.Replace("@@ccpzon", sCatGroup)
+            cmd.CommandText = cmd.CommandText.Replace("@@ccruom", sArtLoc)
+            cmd.CommandText = cmd.CommandText.Replace("@@cceop", sMaxQty)
+            cmd.CommandText = cmd.CommandText.Replace("@@ccmqoh", sIncQty)
+            cmd.CommandText = cmd.CommandText.Replace("@@cciseq", sSeqNum)
+
+            'Execute the record insert
+
+            cmd.ExecuteNonQuery()
+
+            Dim cmdD As New SqlCommand("insert into cstcop (ccctyp,cccon#,ccitct,ccnumb,ccdeff,ccdexp,cccuom,ccpbon,ccpfre,cciseq) values('@@ccctyp','@@cccon#', '@@ccitct', '@@ccnumb', '@@ccdeff', '@@ccdexp', '@@cccuom', '@@ccpbon', '@@ccpfre', '@@cciseq')", conn)
+            cmdD.CommandText = cmdD.CommandText.Replace("@@ccctyp", "A")
+            cmdD.CommandText = cmdD.CommandText.Replace("@@cccon#", sCatName)
+            cmdD.CommandText = cmdD.CommandText.Replace("@@ccitct", "I")
+            cmdD.CommandText = cmdD.CommandText.Replace("@@ccnumb", sItem)
+            cmdD.CommandText = cmdD.CommandText.Replace("@@ccdeff", sEffDate)
+            cmdD.CommandText = cmdD.CommandText.Replace("@@ccdexp", sExpDate)
+            cmdD.CommandText = cmdD.CommandText.Replace("@@cccuom", sItemUOM)
+            cmdD.CommandText = cmdD.CommandText.Replace("@@ccpbon", "A")
+            cmdD.CommandText = cmdD.CommandText.Replace("@@ccpfre", "X")
+            cmdD.CommandText = cmdD.CommandText.Replace("@@cciseq", sSeqNum)
+
+            'Execute the record insert
+
+            cmdD.ExecuteNonQuery()
+
+            'Insert succeeded
+            Return True
+
+        Catch ex As Exception
+            mvLastError = ex.Message
+            Return False
+        End Try
+
+    End Function
+
+    Shared Function LoadCatsGroupsDataTable(rdOnly As Boolean, eventType As String) As DataTable
+        '-------------------------------------------------------
+        'function  : LoadCatsGroupsDataTable
+        'Desc. . . : Load the catalog group buttons to web page.
+        '-------------------------------------------------------
+
+        Dim dt As New DataTable
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
+        Try
+
+            Dim query As String = String.Empty
+            If eventType = "Z" Then
+                query = "Select catgrp, catdesc From  catgroup order by catdesc"
+            Else
+                If rdOnly Then
+                    If eventType = "S" Then
+                        query = "Select catgrp, catdesc From  catgroup where (cattype = ' ' or cattype = 'RD' or cattype = 'SP')  order by catdesc"
+                    Else
+                        query = "Select catgrp, catdesc From  catgroup where (cattype = ' ' or cattype = 'RD')  order by catdesc"
+                    End If
+                Else
+                    If eventType = "S" Then
+                        query = "Select catgrp, catdesc From  catgroup where (cattype = ' ' or cattype = 'SP')  order by catdesc"
+                    Else
+                        query = "Select catgrp, catdesc From  catgroup where cattype = ' ' order by catdesc"
+                    End If
+                End If
+            End If
+            Dim sc As SqlCommand = New SqlCommand(query, conn)
+
+            Dim dr As SqlDataReader
+            dr = sc.ExecuteReader()
+            dt.Load(dr)
+
+            Return dt
+
+        Catch ex As Exception
+            mvLastError = ex.Message
+            Return Nothing
+        End Try
+
+    End Function
+
+    Shared Function UpdateCat(sCatName As String, sCatEff As String, sCatExp As String, sCatType As String) As Boolean
 
         '---------------------------------------------------------
         'Function: Update Category
@@ -445,6 +622,86 @@ Public Class SQLAccess
             Return rc
         End Try
 
+
+    End Function
+
+    Shared Function UpdateItem(sItem As String, sEffDate As String, sExpDate As String, sIncQty As String, sMaxQty As String, sArtLoc As String, sCatGroup As String, sCatName As String, sSeqNum As String, sCCEFFL As String) As Boolean
+        '---------------------------------------------------------
+        'Desc. . : Update detail record in CSTCOL and CSTCOP files using SQL
+        'Parms . : 1.) Item 
+        '          2.) Effective date
+        '          3.) Expiration date
+        '          4.) Incremental quantity
+        '          5.) Maximum Order quantity
+        '          6.) Art package location
+        '          7.) Catalog group
+        '          8.) Catalog name
+        '          9.) Sequence number
+        '         10.) Saved old effective date as session parm is part of where   
+        '---------------------------------------------------------
+
+        If Not conn.State = ConnectionState.Open Then
+            conn.Open()
+        End If
+
+        'Reset last error
+        mvLastError = ""
+
+        Try
+
+            Dim cmdD As New SqlCommand("update  cstcol SET " &
+            "CCEFFL='" & sEffDate & "'," &
+            "CCEXPL='" & sExpDate & "'," &
+            "CCPZON='" & sCatGroup & "'," &
+            "CCRUOM='" & sArtLoc & "'," &
+            "CCEOP='" & sMaxQty & "'," &
+            "CCMQOH='" & sIncQty & "'," &
+            "CCISEQ='" & sSeqNum & "'" &
+            " WHERE CCCTYP = @ccctyp and CCCUST = @cccust and CCCON# = @cccon# and CCITCT = @ccitct and CCNUMB = @ccnumb and CCEFFL = @cceffl", conn)
+            cmdD.Parameters.Add("@ccctyp", SqlDbType.varchar, 1)
+            cmdD.Parameters("@ccctyp").Value = "A"
+            cmdD.Parameters.Add("@cccust", SqlDbType.varchar, 10)
+            cmdD.Parameters("@cccust").Value = "    "
+            cmdD.Parameters.Add("@cccon#", SqlDbType.varchar, 20)
+            cmdD.Parameters("@cccon#").Value = sCatName
+            cmdD.Parameters.Add("@ccitct", SqlDbType.varchar, 1)
+            cmdD.Parameters("@ccitct").Value = "I"
+            cmdD.Parameters.Add("@ccnumb", SqlDbType.varchar, 20)
+            cmdD.Parameters("@ccnumb").Value = sItem
+            cmdD.Parameters.Add("@cceffl", SqlDbType.varchar, 8)
+            cmdD.Parameters("@cceffl").Value = sCCEFFL
+
+            'Execute the record update
+            cmdD.ExecuteNonQuery()
+
+            Dim cmd As New SqlCommand("update  cstcop SET " &
+            "CCDEFF='" & sEffDate & "'," &
+            "CCDEXP='" & sExpDate & "'," &
+            "CCISEQ='" & sSeqNum & "'" &
+            " WHERE CCCTYP = @ccctyp and CCCUST = @cccust and CCCON# = @cccon# and CCITCT = @ccitct and CCNUMB = @ccnumb and CCDEFF = @cceffl", conn)
+            cmd.Parameters.Add("@ccctyp", SqlDbType.varchar, 1)
+            cmd.Parameters("@ccctyp").Value = "A"
+            cmd.Parameters.Add("@cccust", SqlDbType.varchar, 10)
+            cmd.Parameters("@cccust").Value = "    "
+            cmd.Parameters.Add("@cccon#", SqlDbType.varchar, 20)
+            cmd.Parameters("@cccon#").Value = sCatName
+            cmd.Parameters.Add("@ccitct", SqlDbType.varchar, 1)
+            cmd.Parameters("@ccitct").Value = "I"
+            cmd.Parameters.Add("@ccnumb", SqlDbType.varchar, 20)
+            cmd.Parameters("@ccnumb").Value = sItem
+            cmd.Parameters.Add("@ccdeff", SqlDbType.varchar, 8)
+            cmd.Parameters("@ccdeff").Value = sCCEFFL
+
+            'Execute the record update
+            cmd.ExecuteNonQuery()
+
+            'Update succeeded
+            Return True
+
+        Catch ex As Exception
+            mvLastError = ex.Message
+            Return False
+        End Try
 
     End Function
 

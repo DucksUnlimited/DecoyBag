@@ -1,4 +1,3 @@
-'Imports iSeriesDB.iSeriesCatalog
 Imports System.Data
 Imports SQLAccessDB.SQLAccess
 
@@ -6,7 +5,6 @@ Partial Class CatGroup002
     Inherits System.Web.UI.Page
 
     Public parms As New ClassSessionManager
-    'Public oiSeries As New ClassiSeriesDataAccess
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
 
@@ -53,7 +51,7 @@ Partial Class CatGroup002
         End Try
     End Sub
 
-    Protected Sub ButtonCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonCancel.Click
+    Protected Sub ButtonCancel_Click(sender As Object, e As EventArgs) Handles ButtonCancel.Click
 
         Try
 
@@ -68,7 +66,7 @@ Partial Class CatGroup002
     End Sub
 
 
-    Protected Sub ButtonSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ButtonSave.Click
+    Protected Sub ButtonSave_Click(sender As Object, e As EventArgs) Handles ButtonSave.Click
 
         'Perform insert/update/delete and redirect if done
         Dim rtnbool As Boolean

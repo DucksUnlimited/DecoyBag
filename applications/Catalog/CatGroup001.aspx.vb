@@ -6,9 +6,8 @@ Partial Class CatGroup001
     Inherits System.Web.UI.Page
 
     Public parms As New ClassSessionManager
-    'Public oiSeries As New ClassiSeriesDataAccess
 
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Protected Sub Page_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         Try
             ' get session manager object
             parms = Session("oSessionManager")
@@ -90,7 +89,7 @@ Partial Class CatGroup001
 
     End Sub
 
-    Protected Sub GridView1_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridView1.SelectedIndexChanged
+    Protected Sub GridView1_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles GridView1.SelectedIndexChanged
 
         Try
 
@@ -115,7 +114,6 @@ Partial Class CatGroup001
             Dim urlStart As String = Session("UrlStart")
             Session.Abandon()
             Response.Redirect(urlStart)
-            'Response.Redirect(Session("UrlStart"))
 
         Catch ex As Exception
 

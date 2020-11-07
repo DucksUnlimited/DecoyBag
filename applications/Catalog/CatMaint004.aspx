@@ -2,7 +2,7 @@
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
- <table style="width: 98%; " align="center">
+ <table style="width: 98%;" align="center">
    <tr>
    <td align="center" colspan="3" style="font-size:8pt;"></td>
    </tr>
